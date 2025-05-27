@@ -9,5 +9,8 @@ import { NgStyle } from '@angular/common';
   styleUrls: ['./home.component.scss', '../auth-styles.css'],
 })
 export class HomeComponent {
-  backgroundImage = 'url(/imgs/bg-home.jpg)';
+  backgroundImage = `
+    linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url('/imgs/bg-home.jpg')
+  `;
 }

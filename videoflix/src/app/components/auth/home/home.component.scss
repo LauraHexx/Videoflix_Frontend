@@ -2,4 +2,74 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  h1,
+  span {
+    text-align: center;
+  }
+}
+
+.content-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin: 18px;
+}
+
+.input-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  input {
+    width: 80%;
+    max-width: 360px;
+    height: 48px;
+    padding: 12px;
+    border-radius: 40px;
+    color: var(--white);
+    background-color: #1c1a20cc;
+    border: 1px solid var(--white);
+    color: var(--white);
+  }
+  input::placeholder {
+    color: var(--white);
+    opacity: 0.8;
+  }
+
+  button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    img {
+      width: 7.5px;
+      height: 12px;
+    }
+  }
+}
+
+@media (max-width: 725px) {
+  h1 {
+    font-size: 37px;
+  }
+
+  .content-home,
+  .input-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 450px) {
+  h1 {
+    font-size: 30px;
+  }
+
+  .content-home,
+  .input-container {
+    flex-direction: column;
+    gap: 24px;
+  }
 }

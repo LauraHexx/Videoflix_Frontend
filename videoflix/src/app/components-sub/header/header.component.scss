@@ -20,3 +20,28 @@ header {
     cursor: pointer;
   }
 }
+
+.logo-text {
+  display: flex;
+}
+
+.logo-no-text {
+  display: none;
+}
+
+@media (max-width: 725px) {
+  header {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .logo-no-text {
+    display: flex;
+  }
+
+  .logo-text {
+    display: none;
+  }
+}
