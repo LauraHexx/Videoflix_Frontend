@@ -1,3 +1,9 @@
+.bg-home {
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url("/imgs/bg-home.jpg");
+}
+
 .home-container {
   display: flex;
   justify-content: center;
