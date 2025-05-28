@@ -7,60 +7,40 @@
   background-size: cover;
 }
 
-.home-container {
+.login-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  h1,
+  h2,
   span {
     text-align: center;
   }
 }
 
-.content-home {
-  display: flex;
+.login-content {
+  position: relative;
   flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  margin: 18px;
 }
 
-.input-container {
-  width: 100%;
+.btn-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-  input {
-    width: 80%;
-    max-width: 360px;
-    height: 48px;
-    padding: 12px;
-    border-radius: 40px;
-    color: var(--white);
-    background-color: #1c1a20cc;
-    border: 1px solid var(--white);
-    color: var(--white);
-  }
-  input::placeholder {
-    color: var(--white);
-    opacity: 0.8;
-  }
+}
 
-  button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    img {
-      width: 7.5px;
-      height: 12px;
-    }
-  }
+.pw-img-visibility {
+  right: 15px !important;
+  left: unset !important;
+}
+
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 @media (max-width: 725px) {
-  h1 {
+  h2 {
     font-size: 37px;
   }
 
@@ -72,7 +52,7 @@
 }
 
 @media (max-width: 450px) {
-  h1 {
+  h2 {
     font-size: 30px;
   }
 

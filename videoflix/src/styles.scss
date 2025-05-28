@@ -3,6 +3,7 @@
 :root {
   --primary-color: #2e3edf;
   --white: #ffffff;
+  --error: #ff002e;
 }
 
 *,
@@ -92,4 +93,61 @@ h6 {
 
 .font-size-12 {
   font-size: 12px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.display-general {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background-color: #1b1b22d9;
+  border-radius: 48px;
+  padding: 43px 56px;
+  width: clamp(300px, 45%, 520px);
+}
+
+.container-input-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  img {
+    position: absolute;
+    left: 15px;
+    width: 24px;
+    height: 24px;
+  }
+
+  input {
+    width: 100%;
+    background-color: var(--primary-color);
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    padding-top: 12px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    padding-left: 45px;
+
+    //&:hover {
+    //  border-color: var(--error);
+    //}
+    &:focus {
+      border-color: var(--primary-color);
+    }
+  }
+
+  input::placeholder {
+    color: var(--white);
+    opacity: 0.7;
+  }
+
+  .error {
+    position: absolute;
+    bottom: -17px;
+    font-size: 12px;
+    color: var(--error);
+  }
 }
