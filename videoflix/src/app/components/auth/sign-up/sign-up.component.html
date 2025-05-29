@@ -1,0 +1,76 @@
+<div class="bg-sign-up sign-up-container">
+  <form
+    [formGroup]="signUpForm"
+    (ngSubmit)="onSubmit()"
+    class="sign-up-content display-general"
+  >
+    <h2 class="text-center text-bold">Sign up</h2>
+
+    <!-- Email Input -->
+    <div class="container-input-field">
+      <img src="imgs/icon-mail.png" alt="Mail icon" />
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email Address"
+        aria-label="Email"
+      />
+    </div>
+
+    <!-- First Password Input -->
+    <div class="container-input-field">
+      <img src="imgs/icon-password.png" alt="Password icon" />
+      <input
+        [type]="showFirstPassword ? 'text' : 'password'"
+        formControlName="password"
+        placeholder="Enter a password"
+        aria-label="Password"
+      />
+
+      <img
+        class="pw-img-visibility"
+        (click)="toggleFirstPassword()"
+        [src]="
+          showFirstPassword
+            ? 'imgs/icon-visibility.png'
+            : 'imgs/icon-visibility-off.png'
+        "
+        alt="Toggle visibility"
+      />
+    </div>
+
+    <!-- Second Password Input -->
+    <div class="container-input-field">
+      <img src="imgs/icon-password.png" alt="Password icon" />
+      <input
+        [type]="showSecondPassword ? 'text' : 'password'"
+        formControlName="password"
+        placeholder="Confirm Password"
+        aria-label="Password"
+      />
+
+      <img
+        class="pw-img-visibility"
+        (click)="toggleSecondPassword()"
+        [src]="
+          showSecondPassword
+            ? 'imgs/icon-visibility.png'
+            : 'imgs/icon-visibility-off.png'
+        "
+        alt="Toggle visibility"
+      />
+
+      <div
+        *ngIf="signUpForm.hasError('passwordMismatch')"
+        class="error-message"
+      >
+        <img src="imgs/warning.png" alt="warning icon" />
+        <span class="error"> Passwords must match.</span>
+      </div>
+    </div>
+
+    <div class="btn-container">
+      <button type="submit" [disabled]="signUpForm.invalid">Get Started</button>
+    </div>
+  </form>
+</div>
