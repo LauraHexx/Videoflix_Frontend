@@ -1,31 +1,52 @@
 <div class="bg-login login-container">
-  <div class="login-content display-general">
-    <h2 class="text-center">Log in</h2>
+  <form
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
+    class="login-content display-general"
+  >
+    <h2 class="text-center text-bold">Log in</h2>
+
+    <!-- Email Input -->
     <div class="container-input-field">
-      <img src="imgs/icon-mail.png" alt="icon of mail" />
-      <input type="email" placeholder="Email Address" />
-    </div>
-    <div class="container-input-field">
-      <img src="imgs/icon-password.png" alt="icon of mail" />
-      <input type="password" placeholder="Password" />
-      <img
-        class="pw-img-visibility"
-        src="imgs/icon-visibility-off.png"
-        alt="icon of mail"
-      />
-      <img
-        class="pw-img-visibility"
-        src="imgs/icon-visibility.png"
-        alt="icon of mail"
+      <img src="imgs/icon-mail.png" alt="Mail icon" />
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email Address"
+        aria-label="Email"
       />
     </div>
+
+    <!-- Password Input -->
+    <div class="container-input-field">
+      <img src="imgs/icon-password.png" alt="Password icon" />
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
+        placeholder="Password"
+        aria-label="Password"
+      />
+
+      <img
+        class="pw-img-visibility"
+        (click)="togglePassword()"
+        [src]="
+          showPassword
+            ? 'imgs/icon-visibility.png'
+            : 'imgs/icon-visibility-off.png'
+        "
+        alt="Toggle visibility"
+      />
+    </div>
+
     <div class="btn-container">
-      <button>Log in</button>
+      <button type="submit" [disabled]="loginForm.invalid">Log in</button>
     </div>
+
     <a class="text-center" href="#">Forgot password?</a>
     <div class="auth-links">
-      <a href="#">New to Videoflix?</a>
-      <a class="text-bold" href="#">Sign Up now</a>
+      <a class="text-center" href="#">New to Videoflix?</a>
+      <a class="text-center text-bold" href="#">Sign Up now</a>
     </div>
-  </div>
+  </form>
 </div>
