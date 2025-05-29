@@ -29,6 +29,12 @@ header {
   display: none;
 }
 
+.arrow-back {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
 @media (max-width: 725px) {
   header {
     padding-right: 16px;

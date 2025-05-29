@@ -3,5 +3,12 @@
   <div class="logo-no-text">
     <img src="/imgs/logo-no-text.png" alt="logo" />
   </div>
-  <button *ngIf="!isLoginRoute">Log in</button>
+  <button *ngIf="showButton">Log in</button>
+  <img
+    *ngIf="showArrowBack"
+    src="imgs/arrow-back.png"
+    alt="arrow back"
+    class="arrow-back"
+    (click)="goBack()"
+  />
 </header>
