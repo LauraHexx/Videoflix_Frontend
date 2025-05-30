@@ -57,4 +57,11 @@ export class HeaderComponent {
   goBack(): void {
     this.location.back();
   }
+
+  /**
+   * Navigates to the login page when the login button is clicked.
+   */
+  goToLogin(): void {
+    this.router.navigate(['/login']);
+  }
 }

@@ -3,7 +3,7 @@
   <div class="logo-no-text">
     <img src="/imgs/logo-no-text.png" alt="logo" />
   </div>
-  <button *ngIf="showButton">Log in</button>
+  <button *ngIf="showButton" (click)="goToLogin()">Log in</button>
   <img
     *ngIf="showArrowBack"
     src="imgs/arrow-back.png"
