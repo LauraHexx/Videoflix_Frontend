@@ -33,6 +33,6 @@ export class FooterComponent {
    * Returns true if the footer should be shown.
    */
   private shouldShowFooter(url: string): boolean {
-    return !(url.includes('privacy-policy') || url.includes('impressum'));
+    return !(url.includes('privacy-policy') || url.includes('imprint'));
   }
 }

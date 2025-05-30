@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects.toLowerCase();
-        if (url.includes('privacy-policy') || url.includes('impressum')) {
+        if (url.includes('privacy-policy') || url.includes('imprint')) {
           this.renderer.addClass(document.body, 'dark-background');
         } else {
           this.renderer.removeClass(document.body, 'dark-background');

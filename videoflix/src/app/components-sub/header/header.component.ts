@@ -40,7 +40,7 @@ export class HeaderComponent {
     return !(
       url.includes('login') ||
       url.includes('privacy-policy') ||
-      url.includes('impressum')
+      url.includes('imprint')
     );
   }
 
@@ -48,7 +48,7 @@ export class HeaderComponent {
    * Determines if the back arrow should be shown.
    */
   private shouldShowArrowBack(url: string): boolean {
-    return url.includes('privacy-policy') || url.includes('impressum');
+    return url.includes('privacy-policy') || url.includes('imprint');
   }
 
   /**
