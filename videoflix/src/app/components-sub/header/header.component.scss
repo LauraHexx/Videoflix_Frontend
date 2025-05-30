@@ -33,6 +33,11 @@ header {
   width: 24px;
   height: 24px;
   cursor: pointer;
+  transition: filter 0.25s ease;
+  &:hover {
+    filter: brightness(0) saturate(100%) sepia(100%) hue-rotate(200deg)
+      brightness(90%) contrast(120%);
+  }
 }
 
 @media (max-width: 725px) {

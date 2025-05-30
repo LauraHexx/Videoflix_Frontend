@@ -13,22 +13,42 @@ import { Location } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent {
-  showButton = true;
+  showButton = false;
   showArrowBack = false;
 
+  /**
+   * Initializes the component, sets up router listener and UI state.
+   */
   constructor(private router: Router, private location: Location) {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        const url = this.router.url.toLowerCase();
+    this.updateUIState();
+  }
 
-        this.showButton = !(
-          url.includes('login') || url.includes('privacy-policy')
-        );
+  /**
+   * Updates the visibility of buttons and arrows based on current URL.
+   */
+  private updateUIState(): void {
+    const url = this.router.url.toLowerCase();
 
-        this.showArrowBack =
-          url.includes('privacy-policy') || url.includes('impressum');
-      });
+    this.showButton = this.shouldShowButton(url);
+    this.showArrowBack = this.shouldShowArrowBack(url);
+  }
+
+  /**
+   * Returns true if the main button should be shown.
+   */
+  private shouldShowButton(url: string): boolean {
+    return !(
+      url.includes('login') ||
+      url.includes('privacy-policy') ||
+      url.includes('impressum')
+    );
+  }
+
+  /**
+   * Determines if the back arrow should be shown.
+   */
+  private shouldShowArrowBack(url: string): boolean {
+    return url.includes('privacy-policy') || url.includes('impressum');
   }
 
   /**
