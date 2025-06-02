@@ -1,7 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -11,22 +12,26 @@ import { filter } from 'rxjs/operators';
   styleUrl: './footer.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit, OnDestroy {
   showFooter = false;
+  private subscription!: Subscription;
+
+  constructor(private router: Router) {}
 
   /**
-   * Initializes the component and updates the UI state based on the current URL.
+   * Subscribes to route changes and updates footer visibility.
    */
-  constructor(private router: Router) {
-    this.updateUIState();
-  }
+  ngOnInit(): void {
+    this.subscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        const url = event.urlAfterRedirects.toLowerCase();
+        this.showFooter = this.shouldShowFooter(url);
+      });
 
-  /**
-   * Updates the visibility of the footer based on the current URL.
-   */
-  private updateUIState(): void {
-    const url = this.router.url.toLowerCase();
-    this.showFooter = this.shouldShowFooter(url);
+    // Direkt initial ausführen
+    const currentUrl = this.router.url.toLowerCase();
+    this.showFooter = this.shouldShowFooter(currentUrl);
   }
 
   /**
@@ -34,5 +39,12 @@ export class FooterComponent {
    */
   private shouldShowFooter(url: string): boolean {
     return !(url.includes('privacy-policy') || url.includes('imprint'));
+  }
+
+  /**
+   * Unsubscribes from router events to avoid memory leaks.
+   */
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

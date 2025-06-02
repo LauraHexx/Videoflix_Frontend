@@ -1,6 +1,8 @@
-import { Component, Renderer2, OnInit } from '@angular/core';
+import { Component, Renderer2, OnInit, Inject } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 import { HeaderComponent } from './components-sub/header/header.component';
 import { FooterComponent } from './components-sub/footer/footer.component';
 
@@ -13,18 +15,36 @@ import { FooterComponent } from './components-sub/footer/footer.component';
 export class AppComponent implements OnInit {
   title = 'videoflix';
 
-  constructor(private router: Router, private renderer: Renderer2) {}
+  constructor(
+    private router: Router,
+    private renderer: Renderer2,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
+  /**
+   * Initializes router event listener and sets CSS class based on current route.
+   */
   ngOnInit(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        const url = event.urlAfterRedirects.toLowerCase();
-        if (url.includes('privacy-policy') || url.includes('imprint')) {
-          this.renderer.addClass(document.body, 'dark-background');
-        } else {
-          this.renderer.removeClass(document.body, 'dark-background');
-        }
+        this._updateDarkBackground(event.urlAfterRedirects.toLowerCase());
       });
+  }
+
+  /**
+   * Adds or removes 'dark-background' class depending on the route.
+   * @param url - The current route path in lowercase
+   */
+  private _updateDarkBackground(url: string): void {
+    const element = document.getElementById('imprint') || document.body;
+
+    if (url.includes('privacy-policy') || url.includes('imprint')) {
+      this.renderer.addClass(element, 'dark-background');
+    } else {
+      this.renderer.removeClass(element, 'dark-background');
+    }
   }
 }

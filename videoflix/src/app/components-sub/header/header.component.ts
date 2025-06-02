@@ -1,7 +1,8 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router'; // <- hier NavigationEnd importieren
+import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 
 @Component({
@@ -12,30 +13,36 @@ import { Location } from '@angular/common';
   styleUrl: './header.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   showButton = false;
   showArrowBack = false;
+  private subscription!: Subscription;
+
+  constructor(private router: Router, private location: Location) {}
 
   /**
-   * Initializes the component, sets up router listener and UI state.
+   * Subscribes to route changes and updates button visibility.
    */
-  constructor(private router: Router, private location: Location) {
-    this.updateUIState();
+  ngOnInit(): void {
+    this.subscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        const url = event.urlAfterRedirects.toLowerCase();
+        this.updateUIState(url);
+      });
+
+    // Initial aufrufen
+    this.updateUIState(this.router.url.toLowerCase());
   }
 
   /**
-   * Updates the visibility of buttons and arrows based on current URL.
+   * Sets visibility for login button and back arrow based on route.
    */
-  private updateUIState(): void {
-    const url = this.router.url.toLowerCase();
-
+  private updateUIState(url: string): void {
     this.showButton = this.shouldShowButton(url);
     this.showArrowBack = this.shouldShowArrowBack(url);
   }
 
-  /**
-   * Returns true if the main button should be shown.
-   */
   private shouldShowButton(url: string): boolean {
     return !(
       url.includes('login') ||
@@ -44,24 +51,28 @@ export class HeaderComponent {
     );
   }
 
-  /**
-   * Determines if the back arrow should be shown.
-   */
   private shouldShowArrowBack(url: string): boolean {
     return url.includes('privacy-policy') || url.includes('imprint');
   }
 
   /**
-   * Navigates back to the previous page in the browser history.
+   * Navigates one step back in browser history.
    */
   goBack(): void {
     this.location.back();
   }
 
   /**
-   * Navigates to the login page when the login button is clicked.
+   * Navigates to login page.
    */
   goToLogin(): void {
     this.router.navigate(['/login']);
+  }
+
+  /**
+   * Cleans up router subscription on destroy.
+   */
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
