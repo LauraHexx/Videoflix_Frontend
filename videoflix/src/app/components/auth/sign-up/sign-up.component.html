@@ -10,6 +10,7 @@
     <div class="container-input-field">
       <img src="imgs/icon-mail.png" alt="Mail icon" />
       <input
+        readonly
         type="email"
         formControlName="email"
         placeholder="Email Address"
@@ -21,7 +22,8 @@
     <div class="container-input-field">
       <img src="imgs/icon-password.png" alt="Password icon" />
       <input
-        [type]="showFirstPassword ? 'text' : 'password'"
+        class="pw-input"
+        [type]="showPassword ? 'text' : 'password'"
         formControlName="password"
         placeholder="Enter a password"
         aria-label="Password"
@@ -29,31 +31,9 @@
 
       <img
         class="pw-img-visibility"
-        (click)="toggleFirstPassword()"
+        (click)="togglePassword()"
         [src]="
-          showFirstPassword
-            ? 'imgs/icon-visibility.png'
-            : 'imgs/icon-visibility-off.png'
-        "
-        alt="Toggle visibility"
-      />
-    </div>
-
-    <!-- Second Password Input -->
-    <div class="container-input-field">
-      <img src="imgs/icon-password.png" alt="Password icon" />
-      <input
-        [type]="showSecondPassword ? 'text' : 'password'"
-        formControlName="password"
-        placeholder="Confirm Password"
-        aria-label="Password"
-      />
-
-      <img
-        class="pw-img-visibility"
-        (click)="toggleSecondPassword()"
-        [src]="
-          showSecondPassword
+          showPassword
             ? 'imgs/icon-visibility.png'
             : 'imgs/icon-visibility-off.png'
         "
@@ -61,7 +41,45 @@
       />
 
       <div
-        *ngIf="signUpForm.hasError('passwordMismatch')"
+        *ngIf="
+          signUpForm.get('password')?.hasError('minLengthPassword') &&
+          signUpForm.get('password')?.touched
+        "
+        class="error-message"
+      >
+        <img src="imgs/warning.png" alt="warning icon" />
+        <span class="error">At least 10 characters long.</span>
+      </div>
+    </div>
+
+    <!-- Second Password Input -->
+    <div class="container-input-field">
+      <img src="imgs/icon-password.png" alt="Password icon" />
+      <input
+        class="pw-input"
+        [type]="showRepeatedPassword ? 'text' : 'password'"
+        formControlName="repeatedPassword"
+        placeholder="Confirm Password"
+        aria-label="Password"
+      />
+
+      <img
+        class="pw-img-visibility"
+        (click)="toggleRepeatedPassword()"
+        [src]="
+          showRepeatedPassword
+            ? 'imgs/icon-visibility.png'
+            : 'imgs/icon-visibility-off.png'
+        "
+        alt="Toggle visibility"
+      />
+
+      <div
+        *ngIf="
+          signUpForm.hasError('passwordMismatch') &&
+          signUpForm.get('password')?.value &&
+          signUpForm.get('repeatedPassword')?.value
+        "
         class="error-message"
       >
         <img src="imgs/warning.png" alt="warning icon" />
