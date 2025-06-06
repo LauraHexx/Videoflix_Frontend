@@ -1,0 +1,23 @@
+.bg-email-was-sent {
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url("/imgs/bg-popcorn.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.email-was-sent-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2,
+  span {
+    text-align: center;
+  }
+}
+
+.email-was-sent-content {
+  position: relative;
+  flex-direction: column;
+}

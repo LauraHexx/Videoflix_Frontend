@@ -9,6 +9,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../../shared/services/api.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -22,7 +23,11 @@ export class SignUpComponent implements OnInit {
   showPassword = false;
   showRepeatedPassword = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private apiService: ApiService
+  ) {
     this.signUpForm = this.createForm();
   }
 
@@ -132,8 +137,16 @@ export class SignUpComponent implements OnInit {
     this.showRepeatedPassword = !this.showRepeatedPassword;
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.signUpForm.valid) {
+      const data = {
+        email: this.signUpForm.value.email,
+        password: this.signUpForm.value.password,
+        repeated_password: this.signUpForm.value.repeatedPassword,
+      };
+      await this.apiService.postDataWJSON('registration/', data);
+      localStorage.removeItem('signUpEmail');
+      this.router.navigate(['/email-was-sent']);
       console.log(this.signUpForm.value);
     }
   }
