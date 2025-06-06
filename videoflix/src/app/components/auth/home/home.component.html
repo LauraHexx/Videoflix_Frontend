@@ -4,12 +4,37 @@
     <span class="text-center"
       >Enter your email to create or restart your subscription.</span
     >
-    <form class="input-container">
-      <input type="email" name="" id="" placeholder="Email Address" />
+    <form
+      ngNativeValidate
+      [formGroup]="homeForm"
+      (ngSubmit)="onSubmit()"
+      class="input-container"
+    >
+      <input
+        required
+        type="email"
+        formControlName="email"
+        id="email"
+        placeholder="Email Address"
+      />
       <button>
         Sign up
         <img src="/imgs/arrow-right.png" alt="arrow right" />
       </button>
     </form>
+  </div>
+  <div class="error-container animate-error" *ngIf="errorVisible">
+    <div class="red-bg"></div>
+    <div class="error-content">
+      <img class="warning-icon" src="imgs/warning.svg" alt="warning icon" />
+      <span class="text-center">Please check your input and try again.</span>
+      <div class="pipe-icon"></div>
+      <img
+        (click)="hideError()"
+        class="close-icon"
+        src="imgs/close.png"
+        alt="close icon"
+      />
+    </div>
   </div>
 </div>

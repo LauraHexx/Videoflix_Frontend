@@ -1,19 +1,103 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ApiService } from '../../../shared/services/api.service';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  constructor(private router: Router) {}
+  homeForm: FormGroup;
+  errorVisible = false;
+
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private apiService: ApiService
+  ) {
+    this.homeForm = this.createForm();
+  }
 
   /**
-   * Navigates to the Sign Up page.
+   * Creates the home form group with email andvalidates it.
+   * @returns A FormGroup instance with validation rules
    */
-  goToSignUp(): void {
-    this.router.navigate(['/sign-up']);
+  private createForm(): FormGroup {
+    return this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+  }
+
+  /**
+   * Handles the form submission and logic flow.
+   */
+  async onSubmit() {
+    const email = this.getEmailFromForm();
+    if (!email) return;
+
+    const result = await this.verifyEmail(email);
+    this.handleVerificationResult(result, email);
+  }
+
+  /**
+   * Retrieves the email value from the form.
+   * @returns Email string or null
+   */
+  private getEmailFromForm(): string | null {
+    const emailControl = this.homeForm.get('email');
+    return emailControl?.value || null;
+  }
+
+  /**
+   * Sends email to API for verification.
+   * @param email Email address
+   * @returns API result object
+   */
+  private async verifyEmail(email: string): Promise<any> {
+    const formData = new FormData();
+    formData.append('email', email);
+    return await this.apiService.postData('user-verified/', formData);
+  }
+
+  /**
+   * Processes API result and acts accordingly.
+   * @param result API response
+   * @param email User's email address
+   */
+  private handleVerificationResult(result: any, email: string): void {
+    if (result.ok && result.data.userIsAlreadyVerified === false) {
+      localStorage.setItem('signUpEmail', email);
+      this.router.navigate(['/sign-up']);
+    } else {
+      this.showErrorTemporarily();
+    }
+  }
+
+  /**
+   * Shows error and hides it after 3 seconds.
+   */
+  private showErrorTemporarily(): void {
+    this.errorVisible = true;
+    setTimeout(() => {
+      this.errorVisible = false;
+    }, 3000);
+  }
+
+  /**
+   * Hides the error container by setting errorVisible to false.
+   */
+  hideError(): void {
+    this.errorVisible = false;
+    console.log('Error container hidden.');
   }
 }
