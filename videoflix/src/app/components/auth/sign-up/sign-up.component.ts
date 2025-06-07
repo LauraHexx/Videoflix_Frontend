@@ -23,6 +23,13 @@ export class SignUpComponent implements OnInit {
   showPassword = false;
   showRepeatedPassword = false;
 
+  /**
+   * Initializes the SignUpComponent with necessary services and sets up the form.
+   *
+   * @param fb - FormBuilder service for creating reactive forms
+   * @param router - Angular Router used for navigation after signup
+   * @param apiService - Custom service for handling API requests
+   */
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -137,17 +144,59 @@ export class SignUpComponent implements OnInit {
     this.showRepeatedPassword = !this.showRepeatedPassword;
   }
 
+  /**
+   * Handles the form submission.
+   */
   async onSubmit(): Promise<void> {
-    if (this.signUpForm.valid) {
-      const data = {
-        email: this.signUpForm.value.email,
-        password: this.signUpForm.value.password,
-        repeated_password: this.signUpForm.value.repeatedPassword,
-      };
-      await this.apiService.postDataWJSON('registration/', data);
-      localStorage.removeItem('signUpEmail');
-      this.router.navigate(['/email-was-sent']);
-      console.log(this.signUpForm.value);
+    if (!this.signUpForm.valid) return;
+
+    const formData = this.createFormDataFromForm();
+    const response = await this.apiService.postData('registration/', formData);
+
+    if (this.isSuccessful(response)) {
+      this.finalizeSuccessfulSubmission();
+    } else {
+      this.handleSubmissionError(response);
     }
+  }
+
+  /**
+   * Converts form values to FormData object.
+   * @returns FormData object with email, password and repeated password.
+   */
+  private createFormDataFromForm(): FormData {
+    const rawData = {
+      email: this.signUpForm.value.email,
+      password: this.signUpForm.value.password,
+      repeated_password: this.signUpForm.value.repeatedPassword,
+    };
+    return this.apiService.jsonToFormData(rawData);
+  }
+
+  /**
+   * Checks if the API response was successful.
+   * @param response - API response object
+   * @returns True if response is ok
+   */
+  private isSuccessful(response: any): boolean {
+    return response && response.ok;
+  }
+
+  /**
+   * Handles the post-submission process after successful registration.
+   */
+  private finalizeSuccessfulSubmission(): void {
+    localStorage.removeItem('signUpEmail');
+    this.router.navigate(['/email-was-sent']);
+  }
+
+  /**
+   * Handles any error that occurs during submission.
+   * @param response - API response object with error
+   */
+  private handleSubmissionError(response: any): void {
+    const errorMessage =
+      response?.data?.detail || response?.message || 'Unknown error';
+    console.error('Registration failed:', errorMessage);
   }
 }

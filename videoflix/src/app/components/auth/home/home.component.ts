@@ -20,6 +20,13 @@ export class HomeComponent {
   homeForm: FormGroup;
   errorVisible = false;
 
+  /**
+   * Initializes the HomeComponent with required services and sets up the form.
+   *
+   * @param router - Angular Router for navigation
+   * @param fb - FormBuilder service for creating reactive forms
+   * @param apiService - Custom service to handle API communication
+   */
   constructor(
     private router: Router,
     private fb: FormBuilder,
