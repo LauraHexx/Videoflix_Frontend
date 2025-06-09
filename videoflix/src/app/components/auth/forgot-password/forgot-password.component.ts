@@ -40,6 +40,6 @@ export class ForgotPasswordComponent {
 
     const email = this.forgotPasswordForm.value.email;
     console.log('Send password reset to:', email);
-    // TODO: Call your backend service to send reset link
+    // TODO: Call your backend service to send reset linkk
   }
 }
