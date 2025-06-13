@@ -9,17 +9,17 @@ export class ApiService {
   constructor() {}
 
   /** Stores authentication credentials in localStorage */
-  setAuthCredentials(token: string, userId: string, username: string): void {
+  setAuthCredentials(token: string, userId: string, email: string): void {
     localStorage.setItem('auth-token', token);
-    localStorage.setItem('auth-user', username);
     localStorage.setItem('auth-user-id', userId);
+    localStorage.setItem('auth-email', email);
   }
 
   /** Removes authentication credentials from localStorage */
   removeAuthCredentials(): void {
     localStorage.removeItem('auth-token');
-    localStorage.removeItem('auth-user');
     localStorage.removeItem('auth-user-id');
+    localStorage.removeItem('auth-email');
   }
 
   /** Returns the authentication token from localStorage */
@@ -27,14 +27,14 @@ export class ApiService {
     return localStorage.getItem('auth-token');
   }
 
-  /** Returns the username from localStorage */
-  getAuthUser(): string | null {
-    return localStorage.getItem('auth-user');
-  }
-
   /** Returns the user ID from localStorage */
   getAuthUserId(): string | null {
     return localStorage.getItem('auth-user-id');
+  }
+
+  /** Returns the user email from localStorage */
+  getAuthUser(): string | null {
+    return localStorage.getItem('auth-email');
   }
 
   /** Converts a JSON object to FormData */

@@ -51,7 +51,6 @@ export class HomeComponent {
   async onSubmit() {
     const email = this.getEmailFromForm();
     if (!email) return;
-
     const result = await this.verifyEmail(email);
     this.handleVerificationResult(result, email);
   }
@@ -105,6 +104,5 @@ export class HomeComponent {
    */
   hideError(): void {
     this.errorVisible = false;
-    console.log('Error container hidden.');
   }
 }
