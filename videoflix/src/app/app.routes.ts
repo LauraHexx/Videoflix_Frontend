@@ -5,8 +5,8 @@ import { EmailWasSentComponent } from './components/auth/email-was-sent/email-wa
 import { LoginComponent } from './components/auth/login/login.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
-import { PrivacyPolicyComponent } from './components-sub/privacy-policy/privacy-policy.component';
-import { ImprintComponent } from './components-sub/imprint/imprint.component';
+import { PrivacyPolicyComponent } from './features/legal/privacy-policy/privacy-policy.component';
+import { ImprintComponent } from './features/legal/imprint/imprint.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
