@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../../shared/services/api.service'; // ggf. Pfad anpassen
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,8 +17,9 @@ import { CommonModule } from '@angular/common';
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
+  notificationVisible = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.forgotPasswordForm = this.createForm();
   }
 
@@ -33,13 +35,35 @@ export class ForgotPasswordComponent {
 
   /**
    * Handles the forgot password form submission.
-   * Typically triggers a backend request to send a reset link.
+   * Sends request to backend and shows notification regardless of result.
    */
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.forgotPasswordForm.invalid) return;
 
     const email = this.forgotPasswordForm.value.email;
-    console.log('Send password reset to:', email);
-    // TODO: Call your backend service to send reset linkk
+    const formData = new FormData();
+    formData.append('email', email);
+
+    try {
+      await this.apiService.postData('password-reset/request/', formData);
+    } catch (error) {
+      console.error('Password reset request failed:', error);
+    }
+
+    this.showNotification();
+  }
+
+  /**
+   * Shows notification
+   */
+  private showNotification(): void {
+    this.notificationVisible = true;
+  }
+
+  /**
+   * Hides the notification container manually.
+   */
+  hideNotification(): void {
+    this.notificationVisible = false;
   }
 }

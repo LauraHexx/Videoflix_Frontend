@@ -15,7 +15,7 @@ export const routes: Routes = [
   { path: 'email-was-sent', component: EmailWasSentComponent },
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'imprint', component: ImprintComponent },
 ];
