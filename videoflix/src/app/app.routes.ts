@@ -7,10 +7,12 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
 import { ResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 import { PrivacyPolicyComponent } from './features/legal/privacy-policy/privacy-policy.component';
 import { ImprintComponent } from './features/legal/imprint/imprint.component';
+import { MediaHomeComponent } from './features/main/componentes/media-home/media-home.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'media-home', component: MediaHomeComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'email-was-sent', component: EmailWasSentComponent },
   { path: 'login', component: LoginComponent },
