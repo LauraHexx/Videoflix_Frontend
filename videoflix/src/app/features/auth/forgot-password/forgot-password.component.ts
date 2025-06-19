@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../core/services/api.service'; // ggf. Pfad anpassen
+import { ApiService } from '../../../core/services/api-service/api.service'; // ggf. Pfad anpassen
 
 @Component({
   selector: 'app-forgot-password',

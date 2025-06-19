@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -9,49 +8,48 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../core/services/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../../../core/services/api-service/api.service';
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'app-reset-password',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss',
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.scss',
 })
-export class SignUpComponent implements OnInit {
-  signUpForm: FormGroup;
+export class ResetPasswordComponent implements OnInit {
+  resetPasswordForm: FormGroup;
   showPassword = false;
   showRepeatedPassword = false;
+  token: string | null = null;
 
-  /**
-   * Initializes the SignUpComponent with necessary services and sets up the form.
-   *
-   * @param fb - FormBuilder service for creating reactive forms
-   * @param router - Angular Router used for navigation after signup
-   * @param apiService - Custom service for handling API requests
-   */
   constructor(
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
     private apiService: ApiService
   ) {
-    this.signUpForm = this.createForm();
+    this.resetPasswordForm = this.createForm();
   }
 
   /**
-   * Lifecycle hook: sets email from localStorage if available.
+   * OnInit lifecycle hook to extract token from route.
    */
   ngOnInit(): void {
-    this.prefillEmailFromLocalStorage();
+    this.token = this.route.snapshot.paramMap.get('token');
+    if (!this.token) {
+      console.error('No token found in URL.');
+      this.router.navigate(['/home']);
+    }
   }
 
   /**
-   * Creates the sign up form with validation.
+   * Builds the reset form with validation.
    */
   private createForm(): FormGroup {
     return this.fb.group(
       {
-        email: ['', [Validators.required, Validators.email]],
         password: [
           '',
           [Validators.required, this.minLengthPassword.bind(this)],
@@ -116,87 +114,63 @@ export class SignUpComponent implements OnInit {
   }
 
   /**
-   * Prefills the email field if a signUpEmail is stored in localStorage.
-   * Redirects to home if no email found.
-   */
-  private prefillEmailFromLocalStorage(): void {
-    if (typeof localStorage !== 'undefined') {
-      const storedEmail = localStorage.getItem('signUpEmail');
-      if (storedEmail) {
-        this.signUpForm.patchValue({ email: storedEmail });
-      } else {
-        this.router.navigate(['/home']); // Redirect to home page
-      }
-    }
-  }
-
-  /**
-   * Toggles visibility of the first password input.
+   * Toggles visibility for the password field.
    */
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
   /**
-   * Toggles visibility of the repeated password input.
+   * Toggles visibility for the repeated password field.
    */
   toggleRepeatedPassword(): void {
     this.showRepeatedPassword = !this.showRepeatedPassword;
   }
 
   /**
-   * Handles the form submission.
+   * Handles the password reset form submission.
    */
   async onSubmit(): Promise<void> {
-    if (!this.signUpForm.valid) return;
+    if (!this.resetPasswordForm.valid || !this.token) return;
 
     const formData = this.createFormDataFromForm();
-    const response = await this.apiService.postData('registration/', formData);
+    const response = await this.apiService.postData(
+      'password-reset/confirm/',
+      formData
+    );
 
     if (this.isSuccessful(response)) {
-      this.finalizeSuccessfulSubmission();
+      this.router.navigate(['/login']);
     } else {
       this.handleSubmissionError(response);
     }
   }
 
   /**
-   * Converts form values to FormData object.
-   * @returns FormData object with email, password and repeated password.
+   * Builds FormData object to send to backend.
    */
   private createFormDataFromForm(): FormData {
     const rawData = {
-      email: this.signUpForm.value.email,
-      password: this.signUpForm.value.password,
-      repeated_password: this.signUpForm.value.repeatedPassword,
+      token: this.token,
+      password: this.resetPasswordForm.value.password,
+      password_confirmed: this.resetPasswordForm.value.repeatedPassword,
     };
     return this.apiService.jsonToFormData(rawData);
   }
 
   /**
-   * Checks if the API response was successful.
-   * @param response - API response object
-   * @returns True if response is ok
+   * Checks if API call succeeded.
    */
   private isSuccessful(response: any): boolean {
     return response && response.ok;
   }
 
   /**
-   * Handles the post-submission process after successful registration.
-   */
-  private finalizeSuccessfulSubmission(): void {
-    localStorage.removeItem('signUpEmail');
-    this.router.navigate(['/email-was-sent']);
-  }
-
-  /**
-   * Handles any error that occurs during submission.
-   * @param response - API response object with error
+   * Handles failed password reset.
    */
   private handleSubmissionError(response: any): void {
     const errorMessage =
       response?.data?.detail || response?.message || 'Unknown error';
-    console.error('Registration failed:', errorMessage);
+    console.error('Password reset failed:', errorMessage);
   }
 }
