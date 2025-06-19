@@ -10,11 +10,6 @@ import { CategoryGridComponent } from '../category-grid/category-grid.component'
   styleUrl: './media-home.component.scss',
 })
 export class MediaHomeComponent {
-  topPickVideo = {
-    title: 'Top Pick Video',
-    description: 'This is a description of the top pick video',
-    image: 'https://via.placeholder.com/150',
-  };
-
+  topPickVideo = [];
   categories = [];
 }
