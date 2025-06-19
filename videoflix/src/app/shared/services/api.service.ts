@@ -68,7 +68,7 @@ export class ApiService {
     return headers;
   }
 
-  /** Returns a human-readable error message based on the error */
+  /** Returns a error message based on the error */
   getErrorMessage(error: any): string {
     if (error instanceof TypeError) {
       return 'There was an issue with the request or network connection.';
