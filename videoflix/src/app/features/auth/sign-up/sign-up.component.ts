@@ -22,6 +22,7 @@ export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   showPassword = false;
   showRepeatedPassword = false;
+  isEmailPrefilled = false;
 
   /**
    * Initializes the SignUpComponent with necessary services and sets up the form.
@@ -116,16 +117,14 @@ export class SignUpComponent implements OnInit {
   }
 
   /**
-   * Prefills the email field if a signUpEmail is stored in localStorage.
-   * Redirects to home if no email found.
+   * Prefills the email field from localStorage if available and sets readonly state.
    */
   private prefillEmailFromLocalStorage(): void {
     if (typeof localStorage !== 'undefined') {
       const storedEmail = localStorage.getItem('signUpEmail');
       if (storedEmail) {
         this.signUpForm.patchValue({ email: storedEmail });
-      } else {
-        this.router.navigate(['/home']); // Redirect to home page
+        this.isEmailPrefilled = true;
       }
     }
   }

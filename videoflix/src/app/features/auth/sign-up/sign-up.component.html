@@ -10,7 +10,7 @@
     <div class="container-input-field">
       <img src="imgs/icon-mail.png" alt="Mail icon" />
       <input
-        readonly
+        [readonly]="isEmailPrefilled"
         type="email"
         formControlName="email"
         placeholder="Email Address"

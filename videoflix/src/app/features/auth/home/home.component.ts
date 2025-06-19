@@ -72,7 +72,7 @@ export class HomeComponent {
   private async verifyEmail(email: string): Promise<any> {
     const formData = new FormData();
     formData.append('email', email);
-    return await this.apiService.postData('user-verified/', formData);
+    return await this.apiService.postData('registration/', formData);
   }
 
   /**
