@@ -81,9 +81,9 @@ export class HomeComponent {
    * @param email User's email address
    */
   private handleVerificationResult(result: any, email: string): void {
-    if (result.ok && result.data.userIsAlreadyVerified === false) {
+    if (result.status == 200) {
       localStorage.setItem('signUpEmail', email);
-      this.router.navigate(['/sign-up']);
+      this.router.navigate(['/sign-up'], { queryParams: { fromHome: '1' } });
     } else {
       this.showErrorTemporarily();
     }

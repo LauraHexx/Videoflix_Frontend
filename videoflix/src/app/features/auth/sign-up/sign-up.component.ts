@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -23,6 +23,8 @@ export class SignUpComponent implements OnInit {
   showPassword = false;
   showRepeatedPassword = false;
   isEmailPrefilled = false;
+  errorVisible = false;
+  private route = inject(ActivatedRoute);
 
   /**
    * Initializes the SignUpComponent with necessary services and sets up the form.
@@ -117,16 +119,18 @@ export class SignUpComponent implements OnInit {
   }
 
   /**
-   * Prefills the email field from localStorage if available and sets readonly state.
+   * Prefills the email field from localStorage if the 'fromHome' query param is set.
    */
   private prefillEmailFromLocalStorage(): void {
-    if (typeof localStorage !== 'undefined') {
-      const storedEmail = localStorage.getItem('signUpEmail');
-      if (storedEmail) {
-        this.signUpForm.patchValue({ email: storedEmail });
-        this.isEmailPrefilled = true;
+    this.route.queryParams.subscribe((params: { [key: string]: any }) => {
+      if (params['fromHome'] === '1') {
+        const storedEmail = localStorage.getItem('signUpEmail');
+        if (storedEmail) {
+          this.signUpForm.patchValue({ email: storedEmail });
+          this.isEmailPrefilled = true;
+        }
       }
-    }
+    });
   }
 
   /**
@@ -155,7 +159,7 @@ export class SignUpComponent implements OnInit {
     if (this.isSuccessful(response)) {
       this.finalizeSuccessfulSubmission();
     } else {
-      this.handleSubmissionError(response);
+      this.showErrorTemporarily();
     }
   }
 
@@ -174,11 +178,13 @@ export class SignUpComponent implements OnInit {
 
   /**
    * Checks if the API response was successful.
+   * Returns false if user is already verified.
    * @param response - API response object
-   * @returns True if response is ok
+   * @returns True if response is ok and user is not already verified
    */
   private isSuccessful(response: any): boolean {
-    return response && response.ok;
+    console.log(response.userIsAlreadyVerified);
+    return response.ok;
   }
 
   /**
@@ -190,12 +196,19 @@ export class SignUpComponent implements OnInit {
   }
 
   /**
-   * Handles any error that occurs during submission.
-   * @param response - API response object with error
+   * Shows error and hides it after 3 seconds.
    */
-  private handleSubmissionError(response: any): void {
-    const errorMessage =
-      response?.data?.detail || response?.message || 'Unknown error';
-    console.error('Registration failed:', errorMessage);
+  private showErrorTemporarily(): void {
+    this.errorVisible = true;
+    setTimeout(() => {
+      this.errorVisible = false;
+    }, 3000);
+  }
+
+  /**
+   * Hides the error container by setting errorVisible to false.
+   */
+  hideError(): void {
+    this.errorVisible = false;
   }
 }

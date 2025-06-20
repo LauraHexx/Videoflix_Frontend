@@ -91,4 +91,18 @@
       <button type="submit" [disabled]="signUpForm.invalid">Get Started</button>
     </div>
   </form>
+  <div class="error-container" *ngIf="errorVisible">
+    <div class="red-bg"></div>
+    <div class="error-content">
+      <img class="warning-icon" src="imgs/warning.svg" alt="warning icon" />
+      <span class="text-center">Please check your input and try again.</span>
+      <div class="pipe-icon"></div>
+      <img
+        (click)="hideError()"
+        class="close-icon"
+        src="imgs/close.png"
+        alt="close icon"
+      />
+    </div>
+  </div>
 </div>
