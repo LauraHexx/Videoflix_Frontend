@@ -94,8 +94,7 @@ export class LoginComponent {
    */
   private handleSuccess(data: any): void {
     this.apiService.setAuthCredentials(data.token, data.user_id, data.email);
-    // TODO: Implement logic to redirect user to the videos page - change "home"
-    //this.router.navigate(['/....']);
+    this.router.navigate(['/media-home']);
   }
 
   /**
