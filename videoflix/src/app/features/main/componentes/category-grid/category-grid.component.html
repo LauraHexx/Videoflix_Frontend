@@ -1,1 +1,6 @@
-<p>category-grid works!</p>
+@for (genre of genres; track genre) {
+<div class="category-grid">
+  <div class="category-grid__title">{{ genre }}</div>
+  <app-video-carousel [genre]="genre" [videos]="videos"></app-video-carousel>
+</div>
+}

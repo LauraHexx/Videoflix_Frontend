@@ -9,7 +9,4 @@ import { CategoryGridComponent } from '../category-grid/category-grid.component'
   templateUrl: './media-home.component.html',
   styleUrl: './media-home.component.scss',
 })
-export class MediaHomeComponent {
-  topPickVideo = [];
-  categories = [];
-}
+export class MediaHomeComponent {}

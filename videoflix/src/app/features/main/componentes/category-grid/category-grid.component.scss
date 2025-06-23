@@ -1,0 +1,16 @@
+@use "styles.scss" as *;
+
+section {
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start);
+  width: 100%;
+}
+
+.category-grid {
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start);
+  color: var(--white);
+}
+
+.category-grid__title {
+  @include dFlex();
+  font-size: 22px;
+}

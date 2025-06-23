@@ -1,9 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
 
+@font-face {
+  font-family: "DM Sans";
+  src: url("./assets/fonts/DMSans-VariableFont_opsz,wght.ttf")
+    format("truetype");
+  font-weight: 100 900; // Variable Font unterstützt alle Gewichte
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("./assets/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --primary-color: #2e3edf;
+  --matte-black: #141414;
   --white: #ffffff;
   --error: #ff002e;
+}
+
+@mixin dFlex($jc: center, $ai: center, $fd: row) {
+  display: flex;
+  justify-content: $jc;
+  align-items: $ai;
+  flex-direction: $fd;
 }
 
 *,
@@ -13,6 +39,7 @@
 }
 
 body {
+  font-family: "DM Sans", sans-serif;
   height: 100%;
   margin: 0;
   padding: 0;

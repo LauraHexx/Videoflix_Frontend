@@ -1,1 +1,3 @@
-<p>video-carousel works!</p>
+@for (video of videos; track video) { @if (video.genre == genre) {
+<app-video-card [video]="video"></app-video-card>
+} }

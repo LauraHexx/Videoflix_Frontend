@@ -1,0 +1,14 @@
+@use "styles.scss" as *;
+
+.video-card {
+  @include dFlex();
+}
+
+.video-card__thumbnail {
+  @include dFlex();
+  img {
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+  }
+}
