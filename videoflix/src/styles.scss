@@ -50,6 +50,7 @@ span {
 }
 
 button {
+  @include dFlex($jc: center, $ai: center);
   background-color: var(--primary-color);
   color: var(--white);
   border: none;
@@ -58,8 +59,11 @@ button {
   padding-bottom: 12px;
   padding-left: 24px;
   border-radius: 40px;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
   transition: background-color 0.25s ease;
+  gap: 4px;
 
   &:hover {
     filter: brightness(1.05);

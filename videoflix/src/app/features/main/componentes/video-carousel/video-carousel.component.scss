@@ -1,0 +1,7 @@
+@use "styles.scss" as *;
+
+section {
+  @include dFlex($fd: row, $jc: flex-start, $ai: flex-start);
+  width: 100%;
+  gap: 16px;
+}

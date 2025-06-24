@@ -1,14 +1,38 @@
 @use "styles.scss" as *;
 
+section {
+  @include dFlex($fd: column, $jc: flex-start, $ai: flex-start);
+  width: 100%;
+}
+
 .video-card {
   @include dFlex();
 }
 
 .video-card__thumbnail {
   @include dFlex();
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    z-index: 1;
+  }
+
   img {
     width: 200px;
     height: 100px;
     object-fit: cover;
+  }
+
+  &:hover {
+    &::after {
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0);
+    }
   }
 }

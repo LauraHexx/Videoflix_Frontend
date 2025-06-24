@@ -1,3 +1,5 @@
-@for (video of videos; track video) { @if (video.genre == genre) {
-<app-video-card [video]="video"></app-video-card>
-} }
+<section>
+  @for (video of videos; track video) { @if (video.genre == genre) {
+  <app-video-card [video]="video"></app-video-card>
+  } }
+</section>
