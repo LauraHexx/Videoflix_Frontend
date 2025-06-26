@@ -3,8 +3,9 @@
 section {
   @include dFlex($fd: column, $jc: flex-start, $ai: flex-start);
   width: 100%;
-  height: 70vh;
+  max-width: 1980px;
   max-height: 800px;
+  height: 100vh;
   video {
     width: 100%;
     height: 100%;
@@ -31,7 +32,7 @@ section {
   left: 0;
   width: 100%;
   height: 100%;
-  //background-color: rgba(1, 1, 1, 0.95);
+
   background: linear-gradient(
     to bottom,
     rgba(20, 20, 20, 0.3) 0%,
@@ -40,10 +41,11 @@ section {
     rgb(20, 20, 20)
   );
   display: flex;
-
   padding-left: 96px;
-
   z-index: 20;
+  button {
+    margin-top: 32px;
+  }
 }
 
 .hero-content {

@@ -5,6 +5,11 @@
   color: var(--white);
   margin-bottom: 48px;
   margin-left: 96px;
+  max-width: 1980px;
+}
+
+app-video-carousel {
+  width: 100%;
 }
 
 .category-grid__title {

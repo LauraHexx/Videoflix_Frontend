@@ -1,7 +1,38 @@
 @use "styles.scss" as *;
 
 section {
+  position: relative;
+  max-width: 100%;
+}
+
+.scroll-container {
   @include dFlex($fd: row, $jc: flex-start, $ai: flex-start);
-  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   gap: 16px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.shadow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(
+    to left,
+    rgba(20, 20, 20, 1) 0%,
+    rgba(20, 20, 20, 0.8) 30%,
+    rgba(20, 20, 20, 0.4) 60%,
+    rgba(20, 20, 20, 0) 100%
+  );
+  pointer-events: none; // Damit man trotzdem scrollen kann
+  z-index: 10;
 }

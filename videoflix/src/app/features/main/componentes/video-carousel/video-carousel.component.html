@@ -1,5 +1,8 @@
 <section>
-  @for (video of videos; track video) { @if (video.genre == genre) {
-  <app-video-card [video]="video"></app-video-card>
-  } }
+  <div class="scroll-container">
+    @for (video of videos; track video) { @if (video.genre == genre) {
+    <app-video-card [video]="video"></app-video-card>
+    } }
+  </div>
+  <div class="shadow"></div>
 </section>
