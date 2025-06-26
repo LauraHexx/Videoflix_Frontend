@@ -9,6 +9,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 import { ApiService } from '../../../core/services/api-service/api.service';
 
 @Component({
@@ -36,6 +37,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private authService: AuthService,
     private apiService: ApiService
   ) {
     this.signUpForm = this.createForm();
@@ -154,7 +156,7 @@ export class SignUpComponent implements OnInit {
     if (!this.signUpForm.valid) return;
 
     const formData = this.createFormDataFromForm();
-    const response = await this.apiService.postData('registration/', formData);
+    const response = await this.authService.postData('registration/', formData);
 
     if (this.isSuccessful(response)) {
       this.finalizeSuccessfulSubmission();

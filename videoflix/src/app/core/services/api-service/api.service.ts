@@ -1,201 +1,81 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private readonly API_BASE_URL = 'http://localhost:8000/api/';
+  private apiUrl = environment.apiBaseUrl;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  /** Stores authentication credentials in localStorage */
-  setAuthCredentials(token: string, userId: string, email: string): void {
-    localStorage.setItem('auth-token', token);
-    localStorage.setItem('auth-user-id', userId);
-    localStorage.setItem('auth-email', email);
+  private handleError(err: any): Observable<never> {
+    let msg = 'Network error';
+    if (err.error instanceof ErrorEvent) {
+      msg = err.error.message;
+    } else if (err.status === 0) {
+      msg = 'Failed to connect to the server.';
+    } else if (err.error && typeof err.error === 'object') {
+      msg = JSON.stringify(err.error);
+    }
+    return throwError(() => new Error(msg));
   }
 
-  /** Removes authentication credentials from localStorage */
-  removeAuthCredentials(): void {
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('auth-user-id');
-    localStorage.removeItem('auth-email');
+  get<T>(endpoint: string, params?: Record<string, unknown>): Observable<T> {
+    let httpParams = new HttpParams();
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        if (v != null) {
+          httpParams = httpParams.set(k, String(v));
+        }
+      });
+    }
+    return this.http
+      .get<T>(`${this.apiUrl}${endpoint}`, { params: httpParams })
+      .pipe(catchError((e) => this.handleError(e)));
   }
 
-  /** Returns the authentication token from localStorage */
-  getAuthToken(): string | null {
-    return localStorage.getItem('auth-token');
+  post<T>(endpoint: string, body: any, asJson = true): Observable<T> {
+    const options = asJson
+      ? { headers: { 'Content-Type': 'application/json' } }
+      : {};
+    const payload = asJson ? JSON.stringify(body) : body;
+    return this.http
+      .post<T>(`${this.apiUrl}${endpoint}`, payload, options)
+      .pipe(catchError((e) => this.handleError(e)));
   }
 
-  /** Returns the user ID from localStorage */
-  getAuthUserId(): string | null {
-    return localStorage.getItem('auth-user-id');
+  patch<T>(endpoint: string, body: any, asJson = true): Observable<T> {
+    const options = asJson
+      ? { headers: { 'Content-Type': 'application/json' } }
+      : {};
+    const payload = asJson ? JSON.stringify(body) : body;
+    return this.http
+      .patch<T>(`${this.apiUrl}${endpoint}`, payload, options)
+      .pipe(catchError((e) => this.handleError(e)));
   }
 
-  /** Returns the user email from localStorage */
-  getAuthUser(): string | null {
-    return localStorage.getItem('auth-email');
+  delete<T>(endpoint: string): Observable<T> {
+    return this.http
+      .delete<T>(`${this.apiUrl}${endpoint}`)
+      .pipe(catchError((e) => this.handleError(e)));
   }
 
-  /** Converts a JSON object to FormData */
-  jsonToFormData(json: any): FormData {
-    const formData = new FormData();
-
-    const appendFormData = (data: any, parentKey?: string): void => {
-      if (
-        data &&
-        typeof data === 'object' &&
-        !(data instanceof Date) &&
-        !(data instanceof File)
-      ) {
-        Object.keys(data).forEach((key) => {
-          appendFormData(data[key], parentKey ? `${parentKey}[${key}]` : key);
-        });
-      } else {
-        formData.append(parentKey!, data);
+  jsonToFormData(obj: any): FormData {
+    const form = new FormData();
+    const build = (val: any, key?: string) => {
+      if (val && typeof val === 'object' && !(val instanceof File)) {
+        Object.entries(val).forEach(([k, v]) =>
+          build(v, key ? `${key}[${k}]` : k)
+        );
+      } else if (key) {
+        form.append(key, val);
       }
     };
-
-    appendFormData(json);
-    return formData;
-  }
-
-  /** Creates headers for HTTP requests with optional auth token */
-  createHeaders(): Record<string, string> {
-    const headers: Record<string, string> = {};
-    const token = this.getAuthToken();
-    if (token) headers['Authorization'] = `Token ${token}`;
-    return headers;
-  }
-
-  /** Returns a error message based on the error */
-  getErrorMessage(error: any): string {
-    if (error instanceof TypeError) {
-      return 'There was an issue with the request or network connection.';
-    } else if (error instanceof SyntaxError) {
-      return 'Response was not valid JSON.';
-    } else if (error.message?.includes('Failed to fetch')) {
-      return 'Failed to connect to the server.';
-    }
-    return 'Network error';
-  }
-
-  /** Sends a GET request to a given endpoint */
-  async getData(endpoint: string): Promise<any> {
-    try {
-      const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
-        method: 'GET',
-        headers: this.createHeaders(),
-      });
-      const data = await response.json();
-      return { ok: response.ok, status: response.status, data };
-    } catch (error) {
-      return {
-        ok: false,
-        status: 'error',
-        message: this.getErrorMessage(error),
-      };
-    }
-  }
-
-  /** Sends a POST request with FormData to a given endpoint */
-  async postData(endpoint: string, data: FormData): Promise<any> {
-    try {
-      const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
-        method: 'POST',
-        headers: this.createHeaders(),
-        body: data,
-      });
-      const responseData = await response.json();
-      return { ok: response.ok, status: response.status, data: responseData };
-    } catch (error) {
-      return {
-        ok: false,
-        status: 'error',
-        message: this.getErrorMessage(error),
-      };
-    }
-  }
-
-  /** Sends a POST request with JSON data to a given endpoint */
-  async postDataWJSON(endpoint: string, data: any): Promise<any> {
-    const headers = {
-      ...this.createHeaders(),
-      'Content-Type': 'application/json',
-    };
-    try {
-      const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(data),
-      });
-      const responseData = await response.json();
-      return { ok: response.ok, status: response.status, data: responseData };
-    } catch (error) {
-      return {
-        ok: false,
-        status: 'error',
-        message: this.getErrorMessage(error),
-      };
-    }
-  }
-
-  /** Sends a PATCH request with JSON data */
-  async patchDataWoFiles(endpoint: string, data: any): Promise<any> {
-    const headers = {
-      ...this.createHeaders(),
-      'Content-Type': 'application/json',
-    };
-    try {
-      const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
-        method: 'PATCH',
-        headers,
-        body: JSON.stringify(data),
-      });
-      const responseData = await response.json();
-      return { ok: response.ok, status: response.status, data: responseData };
-    } catch (error) {
-      return {
-        ok: false,
-        status: 'error',
-        message: this.getErrorMessage(error),
-      };
-    }
-  }
-
-  /** Sends a PATCH request with FormData */
-  async patchData(endpoint: string, formData: FormData): Promise<any> {
-    try {
-      const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
-        method: 'PATCH',
-        headers: this.createHeaders(),
-        body: formData,
-      });
-      const responseData = await response.json();
-      return { ok: response.ok, status: response.status, data: responseData };
-    } catch (error) {
-      return {
-        ok: false,
-        status: 'error',
-        message: this.getErrorMessage(error),
-      };
-    }
-  }
-
-  /** Sends a DELETE request to a given endpoint */
-  async deleteData(endpoint: string): Promise<any> {
-    try {
-      const response = await fetch(`${this.API_BASE_URL}${endpoint}`, {
-        method: 'DELETE',
-        headers: this.createHeaders(),
-      });
-      return { ok: response.ok, status: response.status, data: {} };
-    } catch (error) {
-      return {
-        ok: false,
-        status: 'error',
-        message: this.getErrorMessage(error),
-      };
-    }
+    build(obj);
+    return form;
   }
 }

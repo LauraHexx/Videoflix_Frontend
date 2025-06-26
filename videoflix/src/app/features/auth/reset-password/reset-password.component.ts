@@ -10,6 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../core/services/api-service/api.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -28,7 +29,8 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ) {
     this.resetPasswordForm = this.createForm();
   }
@@ -134,7 +136,7 @@ export class ResetPasswordComponent implements OnInit {
     if (!this.resetPasswordForm.valid || !this.token) return;
 
     const formData = this.createFormDataFromForm();
-    const response = await this.apiService.postData(
+    const response = await this.authService.postData(
       'password-reset/confirm/',
       formData
     );

@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../core/services/api-service/api.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ) {
     this.loginForm = this.createForm();
   }
@@ -86,14 +88,14 @@ export class LoginComponent {
    * Sends login POST request to the API.
    */
   private async sendLoginRequest(formData: FormData) {
-    return await this.apiService.postData('login/', formData);
+    return await this.authService.postData('login/', formData);
   }
 
   /**
    * Handles successful login response.
    */
   private handleSuccess(data: any): void {
-    this.apiService.setAuthCredentials(data.token, data.user_id, data.email);
+    this.authService.setAuthCredentials(data.token, data.user_id, data.email);
     this.router.navigate(['/media-home']);
   }
 

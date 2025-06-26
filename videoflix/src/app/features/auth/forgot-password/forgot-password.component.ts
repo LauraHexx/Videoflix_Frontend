@@ -6,7 +6,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../core/services/api-service/api.service'; // ggf. Pfad anpassen
+import { ApiService } from '../../../core/services/api-service/api.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -19,7 +20,11 @@ export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
   notificationVisible = false;
 
-  constructor(private fb: FormBuilder, private apiService: ApiService) {
+  constructor(
+    private fb: FormBuilder,
+    private apiService: ApiService,
+    private authService: AuthService
+  ) {
     this.forgotPasswordForm = this.createForm();
   }
 
@@ -45,7 +50,7 @@ export class ForgotPasswordComponent {
     formData.append('email', email);
 
     try {
-      await this.apiService.postData('password-reset/request/', formData);
+      await this.authService.postData('password-reset/request/', formData);
     } catch (error) {
       console.error('Password reset request failed:', error);
     }

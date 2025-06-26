@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../../core/services/api-service/api.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,8 @@ export class HomeComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private authService: AuthService
   ) {
     this.homeForm = this.createForm();
   }
@@ -72,7 +74,7 @@ export class HomeComponent {
   private async verifyEmail(email: string): Promise<any> {
     const formData = new FormData();
     formData.append('email', email);
-    return await this.apiService.postData('registration/', formData);
+    return await this.authService.postData('registration/', formData);
   }
 
   /**
