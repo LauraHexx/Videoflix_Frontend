@@ -10,5 +10,5 @@ import { Video } from '@shared/models/video';
   styleUrl: './category-grid.component.scss',
 })
 export class CategoryGridComponent {
-  genres = ['nature', 'animals', 'sports'];
+  genres = ['nature', 'animal', 'sports'];
 }
