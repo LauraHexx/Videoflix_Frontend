@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '@environments/environment';
@@ -13,6 +13,8 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   private handleError(err: any): Observable<never> {
+    console.log('API Error Details:', err);
+
     let msg = 'Network error';
 
     if (typeof window !== 'undefined' && err.error instanceof ErrorEvent) {
@@ -23,10 +25,14 @@ export class ApiService {
       msg = JSON.stringify(err.error);
     }
 
+    console.log('Error message:', msg);
     return throwError(() => new Error(msg));
   }
 
-  get<T>(endpoint: string, params?: Record<string, unknown>): Observable<T> {
+  get<T>(
+    endpoint: string,
+    params?: Record<string, unknown>
+  ): Observable<HttpResponse<T>> {
     let httpParams = new HttpParams();
     if (params) {
       Object.entries(params).forEach(([k, v]) => {
@@ -36,33 +42,50 @@ export class ApiService {
       });
     }
     return this.http
-      .get<T>(`${this.apiUrl}${endpoint}`, { params: httpParams })
+      .get<T>(`${this.apiUrl}${endpoint}`, {
+        params: httpParams,
+        observe: 'response' as const,
+      })
       .pipe(catchError((e) => this.handleError(e)));
   }
 
-  post<T>(endpoint: string, body: any, asJson = true): Observable<T> {
+  post<T>(
+    endpoint: string,
+    body: any,
+    asJson = true
+  ): Observable<HttpResponse<T>> {
     const options = asJson
-      ? { headers: { 'Content-Type': 'application/json' } }
-      : {};
+      ? {
+          headers: { 'Content-Type': 'application/json' },
+          observe: 'response' as const,
+        }
+      : { observe: 'response' as const };
     const payload = asJson ? JSON.stringify(body) : body;
     return this.http
       .post<T>(`${this.apiUrl}${endpoint}`, payload, options)
       .pipe(catchError((e) => this.handleError(e)));
   }
 
-  patch<T>(endpoint: string, body: any, asJson = true): Observable<T> {
+  patch<T>(
+    endpoint: string,
+    body: any,
+    asJson = true
+  ): Observable<HttpResponse<T>> {
     const options = asJson
-      ? { headers: { 'Content-Type': 'application/json' } }
-      : {};
+      ? {
+          headers: { 'Content-Type': 'application/json' },
+          observe: 'response' as const,
+        }
+      : { observe: 'response' as const };
     const payload = asJson ? JSON.stringify(body) : body;
     return this.http
       .patch<T>(`${this.apiUrl}${endpoint}`, payload, options)
       .pipe(catchError((e) => this.handleError(e)));
   }
 
-  delete<T>(endpoint: string): Observable<T> {
+  delete<T>(endpoint: string): Observable<HttpResponse<T>> {
     return this.http
-      .delete<T>(`${this.apiUrl}${endpoint}`)
+      .delete<T>(`${this.apiUrl}${endpoint}`, { observe: 'response' as const })
       .pipe(catchError((e) => this.handleError(e)));
   }
 

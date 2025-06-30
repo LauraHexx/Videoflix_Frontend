@@ -67,8 +67,10 @@ export class LoginComponent {
     const formData = this.buildFormData();
     const result = await this.sendLoginRequest(formData);
 
-    if (result.ok) {
-      this.handleSuccess(result.data);
+    console.log('Login result:', result);
+
+    if (result && result.status >= 200 && result.status < 300) {
+      this.handleSuccess(result.body);
     } else {
       this.handleError(result);
     }
@@ -95,8 +97,15 @@ export class LoginComponent {
    * Handles successful login response.
    */
   private handleSuccess(data: any): void {
-    this.authService.setAuthCredentials(data.token, data.user_id, data.email);
-    this.router.navigate(['/media-home']);
+    console.log('handleSuccess called with data:', data);
+
+    if (data && data.token) {
+      this.authService.setAuthCredentials(data.token, data.user_id, data.email);
+      this.router.navigate(['/media-home']);
+    } else {
+      console.error('Invalid response data:', data);
+      this.handleError({ ok: false });
+    }
   }
 
   /**

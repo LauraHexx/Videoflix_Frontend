@@ -1,6 +1,6 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { Video } from '../../../../shared/models/video';
-import { videos } from '@public/dev_media/json_data';
+import { Component, ViewChild, ElementRef, inject } from '@angular/core';
+import { VideoService } from '../../services/video.service';
+import { Video } from '@shared/models/video';
 
 @Component({
   selector: 'app-hero-section',
@@ -10,9 +10,13 @@ import { videos } from '@public/dev_media/json_data';
 })
 export class HeroSectionComponent {
   @ViewChild('heroVideo') heroVideoRef!: ElementRef<HTMLVideoElement>;
-
-  videos: Video[] = videos;
-  topPickVideo = videos[Math.floor(Math.random() * videos.length)];
+  private videoService = inject(VideoService);
+  topPickVideo: Video | null = null;
+  ngOnInit() {
+    this.videoService.getHeroVideo().subscribe((video) => {
+      this.topPickVideo = video;
+    });
+  }
 
   playVideo() {
     if (this.heroVideoRef) {

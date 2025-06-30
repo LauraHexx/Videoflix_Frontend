@@ -13,6 +13,7 @@ import {
 @Component({
   selector: 'app-video-carousel',
   imports: [CommonModule, VideoCardComponent],
+  providers: [VideoService],
   templateUrl: './video-carousel.component.html',
   styleUrl: './video-carousel.component.scss',
 })
@@ -22,6 +23,7 @@ export class VideoCarouselComponent {
   videos$!: Observable<Video[]>;
 
   ngOnInit() {
-    this.videos$ = this.videoService.getAllVideos() as Observable<Video[]>;
+    this.videos$ = this.videoService.getAllVideos();
+    console.log('videos$', this.videos$);
   }
 }

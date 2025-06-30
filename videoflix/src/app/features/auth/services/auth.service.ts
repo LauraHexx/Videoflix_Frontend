@@ -9,27 +9,40 @@ export class AuthService {
   constructor(private apiService: ApiService) {}
 
   setAuthCredentials(token: string, userId: string, username: string): void {
-    localStorage.setItem('auth-token', token);
-    localStorage.setItem('auth-user-id', userId);
-    localStorage.setItem('auth-user', username);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('auth-token', token);
+      localStorage.setItem('auth-user-id', userId);
+      localStorage.setItem('auth-user', username);
+    }
   }
 
   removeAuthCredentials(): void {
-    ['auth-token', 'auth-user-id', 'auth-user'].forEach((k) =>
-      localStorage.removeItem(k)
-    );
+    if (typeof window !== 'undefined' && window.localStorage) {
+      ['auth-token', 'auth-user-id', 'auth-user'].forEach((k) =>
+        localStorage.removeItem(k)
+      );
+    }
   }
 
   getAuthToken(): string | null {
-    return localStorage.getItem('auth-token');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('auth-token');
+    }
+    return null;
   }
 
   getAuthUser(): string | null {
-    return localStorage.getItem('auth-user');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('auth-user');
+    }
+    return null;
   }
 
   getAuthUserId(): string | null {
-    return localStorage.getItem('auth-user-id');
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem('auth-user-id');
+    }
+    return null;
   }
 
   //todo: must be changed...
@@ -57,4 +70,21 @@ export class AuthService {
   async deleteData(endpoint: string): Promise<any> {
     return firstValueFrom(this.apiService.delete(endpoint));
   }
+
+  // isAuthenticated(): boolean {
+  //   const token = this.getAuthToken();
+  //   return !!token;
+  // }
+
+  // // Optional: Token-Validierung gegen Backend
+  // async validateToken(): Promise<boolean> {
+  //   try {
+  //     const response = await this.getData('validate-token/');
+  //     return response && response.ok;
+  //   } catch (error) {
+  //     console.error('Token validation failed:', error);
+  //     this.removeAuthCredentials();
+  //     return false;
+  //   }
+  // }
 }

@@ -8,11 +8,16 @@ import { ResetPasswordComponent } from './features/auth/reset-password/reset-pas
 import { PrivacyPolicyComponent } from './features/legal/privacy-policy/privacy-policy.component';
 import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { MediaHomeComponent } from './features/main/componentes/media-home/media-home.component';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'media-home', component: MediaHomeComponent },
+  {
+    path: 'media-home',
+    component: MediaHomeComponent,
+    canActivate: [authGuard],
+  },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'email-was-sent', component: EmailWasSentComponent },
   { path: 'login', component: LoginComponent },

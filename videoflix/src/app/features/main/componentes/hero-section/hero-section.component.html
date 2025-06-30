@@ -2,8 +2,8 @@
   <!-- Video (immer da) -->
   <video
     #heroVideo
-    [src]="topPickVideo.video_file"
-    [poster]="topPickVideo.thumbnail"
+    [src]="topPickVideo?.video_file"
+    [poster]="topPickVideo?.thumbnail_url"
     muted
     loop
     playsinline
@@ -14,8 +14,10 @@
 
   <div class="hero-overlay">
     <div class="hero-content">
-      <h1 class="hero-title">{{ topPickVideo.title }}</h1>
-      <p class="hero-description">{{ topPickVideo.description }}</p>
+      <h1 class="hero-title">{{ topPickVideo?.title || "No title" }}</h1>
+      <p class="hero-description">
+        {{ topPickVideo?.description || "No description" }}
+      </p>
       <div class="hero-actions">
         <button (click)="playVideo()">
           <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
