@@ -1,0 +1,15 @@
+export const UserEndpoints = {
+  login: 'login/',
+  registration: 'registration/',
+  registrationVerifyToken: (token: string) => `registration/verify/${token}/`,
+  passwordRest: 'password-reset/request/',
+  passwordConfirm: 'password-reset/confirm/',
+  logout: 'logout/',
+};
+
+export const VideosEndpoints = {
+  list: 'video/',
+  detail: (id: string) => `videos/${id}/`,
+  watchHistory: 'userwatchhistory/',
+  hero: 'videos/hero/',
+};

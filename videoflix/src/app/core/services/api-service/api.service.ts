@@ -14,13 +14,15 @@ export class ApiService {
 
   private handleError(err: any): Observable<never> {
     let msg = 'Network error';
-    if (err.error instanceof ErrorEvent) {
+
+    if (typeof window !== 'undefined' && err.error instanceof ErrorEvent) {
       msg = err.error.message;
     } else if (err.status === 0) {
       msg = 'Failed to connect to the server.';
     } else if (err.error && typeof err.error === 'object') {
       msg = JSON.stringify(err.error);
     }
+
     return throwError(() => new Error(msg));
   }
 

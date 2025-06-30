@@ -1,6 +1,7 @@
 <section>
   <div class="scroll-container">
-    @for (video of videos; track video) { @if (video.genre == genre) {
+    @for (video of (videos$ | async) || []; track video) { @if (video.genre ==
+    genre) {
     <app-video-card [video]="video"></app-video-card>
     } }
   </div>
