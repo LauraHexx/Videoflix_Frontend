@@ -14,12 +14,13 @@ import { Subscription } from 'rxjs';
 })
 export class FooterComponent implements OnInit, OnDestroy {
   showFooter = false;
+  isMediaHome = false;
   private subscription!: Subscription;
 
   constructor(private router: Router) {}
 
   /**
-   * Subscribes to route changes and updates footer visibility.
+   * Subscribes to route changes and updates footer visibility and positioning.
    */
   ngOnInit(): void {
     this.subscription = this.router.events
@@ -27,11 +28,13 @@ export class FooterComponent implements OnInit, OnDestroy {
       .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects.toLowerCase();
         this.showFooter = this.shouldShowFooter(url);
+        this.isMediaHome = this.isMediaHomePage(url);
       });
 
     // Direkt initial ausführen
     const currentUrl = this.router.url.toLowerCase();
     this.showFooter = this.shouldShowFooter(currentUrl);
+    this.isMediaHome = this.isMediaHomePage(currentUrl);
   }
 
   /**
@@ -39,6 +42,13 @@ export class FooterComponent implements OnInit, OnDestroy {
    */
   private shouldShowFooter(url: string): boolean {
     return !(url.includes('privacy-policy') || url.includes('imprint'));
+  }
+
+  /**
+   * Returns true if the current page is media-home.
+   */
+  private isMediaHomePage(url: string): boolean {
+    return url.includes('media-home') || url === '/' || url === '';
   }
 
   /**
