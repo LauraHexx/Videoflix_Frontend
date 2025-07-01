@@ -9,7 +9,7 @@ export const UserEndpoints = {
 
 export const VideosEndpoints = {
   list: 'video/',
-  detail: (id: string) => `videos/${id}/`,
+  detail: (id: string) => `video/${id}/`,
   watchHistory: 'userwatchhistory/',
   hero: 'video/random/',
 };

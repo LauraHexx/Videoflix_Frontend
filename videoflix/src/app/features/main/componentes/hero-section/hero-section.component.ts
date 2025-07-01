@@ -56,12 +56,7 @@ export class HeroSectionComponent implements AfterViewInit {
   // New method for the play button action
   onPlayButtonClick() {
     if (this.topPickVideo) {
-      // Navigate to video detail page or perform other action
-      // For now, we'll log the action since there's no video detail page yet
-      console.log('Play button clicked for video:', this.topPickVideo.title);
-
-      // TODO: Navigate to video detail page when it's created
-      // this.router.navigate(['/video', this.topPickVideo.id]);
+      this.router.navigate(['/video', this.topPickVideo.id]);
     }
   }
 }

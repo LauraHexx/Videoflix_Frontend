@@ -9,6 +9,7 @@ import { PrivacyPolicyComponent } from './features/legal/privacy-policy/privacy-
 import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { MediaHomeComponent } from './features/main/componentes/media-home/media-home.component';
 import { authGuard } from './core/guards/auth.guard';
+import { VideoDetailComponent } from './features/main/componentes/video-player/video-player.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,4 +26,9 @@ export const routes: Routes = [
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'imprint', component: ImprintComponent },
+  {
+    path: 'video/:id',
+    component: VideoDetailComponent,
+    canActivate: [authGuard],
+  },
 ];

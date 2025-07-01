@@ -35,4 +35,10 @@ export class VideoService {
       })
       .pipe(map((response) => response.body));
   }
+
+  getVideoById(id: string): Observable<Video> {
+    return this.apiService
+      .get<Video>(VideosEndpoints.detail(id))
+      .pipe(map((response) => response.body as Video));
+  }
 }
