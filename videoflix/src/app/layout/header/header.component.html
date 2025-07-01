@@ -1,9 +1,11 @@
 <header [style.background]="getHeaderBackgroundColor()">
-  <div class="logo-text"><img src="/imgs/logo.png" alt="logo" /></div>
-  <div class="logo-no-text">
-    <img src="/imgs/logo-no-text.png" alt="logo" />
+  <div class="logo">
+    <img [src]="getLogoImage()" alt="logo" />
   </div>
-  <button *ngIf="showButton" (click)="goToLogin()">Log in</button>
+  <button *ngIf="showButton" (click)="handleButtonClick()">
+    <img src="imgs/logout.png" alt="logout" />
+    {{ getButtonText() }}
+  </button>
   <img
     *ngIf="showArrowBack"
     src="imgs/arrow-back.png"

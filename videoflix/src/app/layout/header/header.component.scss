@@ -1,10 +1,12 @@
+//@use "styles.scss" as *;
+
 header {
   position: fixed;
   top: 0px;
   left: 0;
   right: 0;
   width: 100%;
-  height: 52px;
+  height: 100px;
   background-color: transparent;
   z-index: 9999;
   display: flex;
@@ -21,16 +23,19 @@ header {
   }
 
   button {
-    width: 85px;
+    font-size: 18px;
+    font-weight: 600;
+    width: max-content;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
   }
 }
 
-.logo-text {
+.logo {
   display: flex;
-}
-
-.logo-no-text {
-  display: none;
 }
 
 .arrow-back {

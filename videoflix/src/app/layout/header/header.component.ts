@@ -10,6 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -26,7 +27,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   headerOpacity = 0;
   private subscription!: Subscription;
 
-  constructor(private router: Router, private location: Location) {}
+  constructor(
+    private router: Router,
+    private location: Location,
+    private authService: AuthService
+  ) {}
 
   /**
    * Subscribes to route changes and updates button visibility.
@@ -104,9 +109,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return `linear-gradient(
       to bottom,
       rgba(20, 20, 20, ${alpha * 1}) 0%,
-      rgba(20, 20, 20, ${alpha * 0.99}) 10%,
-      rgba(20, 20, 20, ${alpha * 0.98}) 20%,
-      rgba(20, 20, 20, ${alpha * 0.97}) 60%,
+      rgba(20, 20, 20, ${alpha * 0.99}) 20%,
+      rgba(20, 20, 20, ${alpha * 0.98}) 60%,
+      rgba(20, 20, 20, ${alpha * 0.97}) 70%,
       rgba(20, 20, 20, ${alpha * 0.96}) 80%,
       rgba(20, 20, 20, 0) 100%
     )`;
@@ -124,6 +129,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
    */
   goToLogin(): void {
     this.router.navigate(['/login']);
+  }
+
+  /**
+   * Gets the button text based on current route.
+   */
+  getButtonText(): string {
+    return this.isMediaHome ? 'Log Out' : 'Log in';
+  }
+
+  getLogoImage(): string {
+    return this.isMediaHome ? '/imgs/logo-no-text.png' : '/imgs/logo.png';
+  }
+
+  /**
+   * Handles button click - login or logout based on current route.
+   */
+  handleButtonClick(): void {
+    if (this.isMediaHome) {
+      this.logout();
+    } else {
+      this.goToLogin();
+    }
+  }
+
+  /**
+   * Performs logout by clearing credentials and navigating to home.
+   */
+  async logout(): Promise<void> {
+    try {
+      // Call logout endpoint if needed
+      // await this.authService.deleteData('logout/');
+
+      // Clear local credentials
+      this.authService.removeAuthCredentials();
+
+      // Navigate to home page
+      this.router.navigate(['/home']);
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Still clear credentials and navigate even if API call fails
+      this.authService.removeAuthCredentials();
+      this.router.navigate(['/home']);
+    }
   }
 
   /**
