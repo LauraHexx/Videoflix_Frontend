@@ -11,5 +11,7 @@ export const VideosEndpoints = {
   list: 'video/',
   detail: (id: string) => `video/${id}/`,
   watchHistory: 'userwatchhistory/',
+  watchHistoryDetail: (id: string) => `userwatchhistory/${id}/`,
+  watchHistoryByVideo: (id: string) => `userwatchhistory/?video=${id}`,
   hero: 'video/random/',
 };

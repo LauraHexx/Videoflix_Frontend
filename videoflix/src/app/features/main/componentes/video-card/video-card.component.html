@@ -2,6 +2,11 @@
   <div class="video-card">
     <div class="video-card__thumbnail">
       <img [src]="video.thumbnail_url" alt="thumbnail" />
+      <div
+        *ngIf="progressPercent !== null"
+        class="progress-bar"
+        [style.width.%]="progressPercent"
+      ></div>
     </div>
   </div>
 </section>
