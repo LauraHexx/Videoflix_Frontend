@@ -1,5 +1,3 @@
-import { VideoResolution } from './video-resolution';
-
 export interface Video {
   id: number;
   title: string;

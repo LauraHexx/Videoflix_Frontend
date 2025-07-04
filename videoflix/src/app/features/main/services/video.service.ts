@@ -3,6 +3,7 @@ import { Observable, map } from 'rxjs';
 import { ApiService } from '../../../core/services/api-service/api.service';
 import { VideosEndpoints } from '../../../core/endpoints/endpoints';
 import { Video } from '../../../shared/models/video';
+import { UserWatchHistory } from '../../../shared/models/user-watch-history';
 
 @Injectable({
   providedIn: 'root',
@@ -32,23 +33,12 @@ export class VideoService {
 
   /**
    * Retrieves the user's watch history for videos.
-   * @returns Observable with an array of Video objects from watch history.
+   * @returns Observable with an array of watch historys.
    */
-  getVideoWatchHistory(): Observable<Video[]> {
+  getVideoWatchHistory(): Observable<UserWatchHistory[]> {
     return this.apiService
-      .get<Video[]>(VideosEndpoints.watchHistory)
-      .pipe(map((response) => response.body as Video[]));
-  }
-
-  /**
-   * Retrieves watch history entries for a specific video.
-   * @param videoId - ID of the video to get history for.
-   * @returns Observable with watch history data for the video.
-   */
-  getWatchHistoryByVideo(videoId: string): Observable<any> {
-    return this.apiService
-      .get<any>(VideosEndpoints.watchHistoryByVideo(videoId))
-      .pipe(map((response) => response.body));
+      .get<UserWatchHistory[]>(VideosEndpoints.watchHistory)
+      .pipe(map((response) => response.body as UserWatchHistory[]));
   }
 
   /**
@@ -56,9 +46,9 @@ export class VideoService {
    * @param videoId - ID of the video to add history for.
    * @returns Observable with the created watch history response.
    */
-  postVideoWatchHistory(videoId: string): Observable<any> {
+  postVideoWatchHistory(videoId: string): Observable<UserWatchHistory | null> {
     return this.apiService
-      .post(VideosEndpoints.watchHistory, {
+      .post<UserWatchHistory>(VideosEndpoints.watchHistory, {
         video_id: videoId,
       })
       .pipe(map((response) => response.body));
