@@ -9,21 +9,34 @@ import { PrivacyPolicyComponent } from './features/legal/privacy-policy/privacy-
 import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { MediaHomeComponent } from './features/main/componentes/media-home/media-home.component';
 import { authGuard } from './core/guards/auth.guard';
+import { noAuthGuard } from './core/guards/auth.guard';
 import { VideoDetailComponent } from './features/main/componentes/video-player/video-player.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent, canActivate: [noAuthGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [noAuthGuard] },
   {
     path: 'media-home',
     component: MediaHomeComponent,
     canActivate: [authGuard],
   },
-  { path: 'sign-up', component: SignUpComponent },
-  { path: 'email-was-sent', component: EmailWasSentComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password/:token', component: ResetPasswordComponent },
+  { path: 'sign-up', component: SignUpComponent, canActivate: [noAuthGuard] },
+  {
+    path: 'email-was-sent',
+    component: EmailWasSentComponent,
+    canActivate: [noAuthGuard],
+  },
+  { path: 'login', component: LoginComponent, canActivate: [noAuthGuard] },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [noAuthGuard],
+  },
+  {
+    path: 'reset-password/:token',
+    component: ResetPasswordComponent,
+    canActivate: [noAuthGuard],
+  },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'imprint', component: ImprintComponent },
   {
