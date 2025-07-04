@@ -11,7 +11,7 @@ export interface Video {
   thumbnail_url: string;
   hls_playlist: string;
   hls_playlist_url: string;
-  resolutions: VideoResolution[];
+  watch_progress: number;
   created_at: string;
   updated_at: string;
 }
