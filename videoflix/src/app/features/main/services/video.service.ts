@@ -4,12 +4,13 @@ import { ApiService } from '../../../core/services/api-service/api.service';
 import { VideosEndpoints } from '../../../core/endpoints/endpoints';
 import { Video } from '../../../shared/models/video';
 import { UserWatchHistory } from '../../../shared/models/user-watch-history';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VideoService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   /**
    * Fetches the hero video.
@@ -63,5 +64,10 @@ export class VideoService {
     return this.apiService
       .get<Video>(VideosEndpoints.detail(id))
       .pipe(map((response) => response.body as Video));
+  }
+
+  //TODO - open videoPlayer
+  openVideoPlayer(videoId: string): void {
+    this.router.navigate(['/video', videoId]);
   }
 }

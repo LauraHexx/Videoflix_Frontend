@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showButton = false;
   showArrowBack = false;
   isMediaHome = false;
+  isVideoPlayer = false;
   headerOpacity = 0;
   private subscription!: Subscription;
 
@@ -74,7 +75,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showButton = this.shouldShowButton(url);
     this.showArrowBack = this.shouldShowArrowBack(url);
     this.isMediaHome = this.isMediaHomePage(url);
-
+    this.isVideoPlayer = this.isVideoPlayerPage(url);
     // Reset opacity when route changes
     if (!this.isMediaHome) {
       this.headerOpacity = 0;
@@ -95,6 +96,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private isMediaHomePage(url: string): boolean {
     return url.includes('media-home');
+  }
+
+  private isVideoPlayerPage(url: string): boolean {
+    return /\/video\/\d+/.test(url);
   }
 
   /**
@@ -135,7 +140,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * Gets the button text based on current route.
    */
   getButtonText(): string {
-    return this.isMediaHome ? 'Log Out' : 'Log in';
+    return this.isMediaHome || this.isVideoPlayer ? 'Log Out' : 'Log in';
   }
 
   getLogoImage(): string {
