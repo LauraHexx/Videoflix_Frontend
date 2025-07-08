@@ -10,7 +10,7 @@ import { ImprintComponent } from './features/legal/imprint/imprint.component';
 import { MediaHomeComponent } from './features/main/componentes/media-home/media-home.component';
 import { authGuard } from './core/guards/auth.guard';
 import { noAuthGuard } from './core/guards/auth.guard';
-import { VideoDetailComponent } from './features/main/componentes/video-player/video-player.component';
+import { VideoPlayerComponent } from './features/main/componentes/video-player/video-player.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [noAuthGuard] },
@@ -41,7 +41,7 @@ export const routes: Routes = [
   { path: 'imprint', component: ImprintComponent },
   {
     path: 'video/:id',
-    component: VideoDetailComponent,
+    component: VideoPlayerComponent,
     canActivate: [authGuard],
   },
 ];

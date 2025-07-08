@@ -1,63 +1,56 @@
 import {
   Component,
-  AfterViewInit,
+  OnInit,
   OnDestroy,
   ViewChild,
   ElementRef,
-  inject,
+  AfterViewInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import videojs from 'video.js';
-import '@videojs/http-streaming';
 import { VideoService } from '../../services/video.service';
 import { Video } from '@shared/models/video';
 
 @Component({
-  selector: 'app-video-detail',
+  selector: 'app-video-player',
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.scss',
   standalone: true,
-  imports: [CommonModule],
 })
-export class VideoDetailComponent implements AfterViewInit, OnDestroy {
+export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: ElementRef;
-  private route = inject(ActivatedRoute);
-  private videoService = inject(VideoService);
-
-  player: any;
   video: Video | null = null;
+  player: any;
+
+  constructor(
+    private route: ActivatedRoute,
+    private videoService: VideoService
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.videoService.getVideoById(id).subscribe((video) => {
-        this.video = video;
-        setTimeout(() => {
-          this.initializePlayer();
-        }, 100);
+      this.videoService.getVideoById(id).subscribe({
+        next: (video) => (this.video = video),
+        error: (err) => console.error('Error loading video:', err),
       });
     }
   }
 
   ngAfterViewInit() {
-    // Video.js wird jetzt in initializePlayer() initialisiert
-  }
-
-  private initializePlayer() {
-    if (this.target && this.target.nativeElement && this.video) {
+    // Initialisiere den Player, sobald das Video geladen und das Template gerendert ist
+    if (this.target && this.video) {
       this.player = videojs(this.target.nativeElement, {
         controls: true,
         autoplay: false,
         preload: 'auto',
         fluid: true,
-        html5: {
-          hls: {
-            enableLowInitialPlaylist: true,
-            smoothQualityChange: true,
-            overrideNative: true,
+        sources: [
+          {
+            src: this.video.hls_playlist_url,
+            type: 'video/mp4',
           },
-        },
+        ],
       });
     }
   }
