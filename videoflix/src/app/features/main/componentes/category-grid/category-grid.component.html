@@ -1,10 +1,11 @@
+<div class="category-grid">
+  <div class="category-grid__title">Continue Watching</div>
+  <app-video-carousel [isContinueWatching]="true"></app-video-carousel>
+</div>
+
 @for (genre of genres; track genre) {
 <div class="category-grid">
   <div class="category-grid__title">{{ genre }}</div>
   <app-video-carousel [genre]="genre"></app-video-carousel>
 </div>
 }
-<div class="category-grid">
-  <div class="category-grid__title">Continue Watching</div>
-  <app-video-carousel></app-video-carousel>
-</div>

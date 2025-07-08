@@ -1,9 +1,7 @@
-<section>
-  <div class="scroll-container">
-    @for (video of (videos$ | async) || []; track video) { @if (video.genre ==
-    genre) {
-    <app-video-card [video]="video"></app-video-card>
-    } }
-  </div>
-  <div class="shadow"></div>
-</section>
+<div class="scroll-container">
+  <ng-container *ngIf="videos$ | async as videos">
+    <ng-container *ngFor="let video of videos; trackBy: trackByVideoId">
+      <app-video-card [video]="video"></app-video-card>
+    </ng-container>
+  </ng-container>
+</div>
