@@ -14,4 +14,5 @@ export const VideosEndpoints = {
   watchHistoryDetail: (id: string) => `userwatchhistory/${id}/`,
   watchHistoryByVideo: (id: string) => `userwatchhistory/?video=${id}`,
   hero: 'video/random/',
+  genres: 'genres/',
 };

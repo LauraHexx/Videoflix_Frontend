@@ -33,6 +33,16 @@ export class VideoService {
   }
 
   /**
+   * Fetches the list of unique video genres.
+   * @returns Observable with an array of genre strings.
+   */
+  getVideoGenres(): Observable<string[]> {
+    return this.apiService
+      .get<{ genres: string[] }>(VideosEndpoints.genres)
+      .pipe(map((response) => response.body?.genres || []));
+  }
+
+  /**
    * Retrieves the user's watch history for videos.
    * @returns Observable with an array of watch historys.
    */
