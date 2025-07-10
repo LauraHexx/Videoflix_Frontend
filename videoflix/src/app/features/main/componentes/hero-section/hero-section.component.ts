@@ -8,16 +8,17 @@ import {
 import { Router } from '@angular/router';
 import { VideoService } from '../../services/video.service';
 import { Video } from '@shared/models/video';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-hero-section',
-  imports: [],
+  imports: [NgIf],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss',
 })
 export class HeroSectionComponent implements AfterViewInit {
   @ViewChild('heroVideo') heroVideoRef!: ElementRef<HTMLVideoElement>;
-  private videoService = inject(VideoService);
+  videoService = inject(VideoService);
   private router = inject(Router);
   topPickVideo: Video | null = null;
 
@@ -50,13 +51,6 @@ export class HeroSectionComponent implements AfterViewInit {
         console.log('Autoplay prevented:', error);
         // If autoplay fails, we can add a fallback or retry mechanism
       });
-    }
-  }
-
-  // New method for the play button action
-  onPlayButtonClick() {
-    if (this.topPickVideo) {
-      this.router.navigate(['/video', this.topPickVideo.id]);
     }
   }
 }

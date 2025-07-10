@@ -1,5 +1,8 @@
 <section>
-  <div class="video-card">
+  <div
+    class="video-card"
+    (click)="videoService.openVideoPlayer(video.id.toString())"
+  >
     <div class="video-card__thumbnail">
       <img [src]="video.thumbnail_url" alt="thumbnail" />
       <div

@@ -20,7 +20,10 @@
         {{ topPickVideo?.description || "No description" }}
       </p>
       <div class="hero-actions">
-        <button (click)="onPlayButtonClick()">
+        <button
+          *ngIf="topPickVideo?.id as videoId"
+          (click)="videoService.openVideoPlayer(videoId.toString())"
+        >
           <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8 5v14l11-7z" />
           </svg>

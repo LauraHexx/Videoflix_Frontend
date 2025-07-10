@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Video } from '../../../../shared/models/video';
+import { VideoService } from '../../services/video.service';
 
 @Component({
   selector: 'app-video-card',
@@ -10,6 +11,7 @@ import { Video } from '../../../../shared/models/video';
 })
 export class VideoCardComponent {
   @Input() video: Video = {} as Video;
+  videoService = inject(VideoService);
 
   /**
    * Returns the watch progress as percentage for the progress bar.

@@ -66,7 +66,10 @@ export class VideoService {
       .pipe(map((response) => response.body as Video));
   }
 
-  //TODO - open videoPlayer
+  /**
+   * Navigates to the video player page for the given video ID.
+   * @param videoId - The ID of the video to play.
+   */
   openVideoPlayer(videoId: string): void {
     this.router.navigate(['/video', videoId]);
   }
