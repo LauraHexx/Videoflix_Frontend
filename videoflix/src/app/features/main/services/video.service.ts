@@ -53,14 +53,19 @@ export class VideoService {
   }
 
   /**
-   * Posts a new watch history entry for a video.
-   * @param videoId - ID of the video to add history for.
-   * @returns Observable with the created watch history response.
+   * Posts the watch progress for a specific video.
+   * @param videoId - The ID of the video.
+   * @param progress - Progress in seconds.
+   * @returns Observable with the created/updated watch history.
    */
-  postVideoWatchHistory(videoId: string): Observable<UserWatchHistory | null> {
+  postVideoWatchHistory(
+    videoId: string,
+    progress: number
+  ): Observable<UserWatchHistory | null> {
     return this.apiService
       .post<UserWatchHistory>(VideosEndpoints.watchHistory, {
         video_id: videoId,
+        progress: progress,
       })
       .pipe(map((response) => response.body));
   }
