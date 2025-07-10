@@ -65,6 +65,10 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
           ],
         });
       }
+      this.player.ready(() => {
+        const startSecond = this.video?.watch_progress ?? 0;
+        this.player.currentTime(startSecond);
+      });
     }, 100);
   }
 
