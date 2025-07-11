@@ -18,8 +18,11 @@
 
 .footer-main {
   position: relative;
+  max-width: 1980px;
   bottom: 0;
-  right: 0;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
   z-index: 9999;
   width: 100%;
   background-color: transparent;

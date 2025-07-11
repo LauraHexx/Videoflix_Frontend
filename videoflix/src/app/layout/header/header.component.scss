@@ -3,9 +3,11 @@
 header {
   position: fixed;
   top: 0px;
-  left: 0;
-  right: 0;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
   width: 100%;
+  max-width: 1980px;
   height: 100px;
   background-color: transparent;
   z-index: 9999;

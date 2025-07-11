@@ -1,4 +1,13 @@
+@use "styles.scss" as *;
+
 .app-container {
   background-color: var(--matte-black);
   min-height: 100vh;
 }
+
+// @media (min-width: 1980px) {
+//   .app-container {
+//     @include dFlex($fd: column, $jc: flex-start, $ai: center);
+//     width: 100%;
+//   }
+// }
