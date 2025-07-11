@@ -1,0 +1,19 @@
+<section *ngIf="video">
+  <div class="hero-section">
+    <img [src]="video.thumbnail_url" alt="thumbnail" />
+  </div>
+  <div class="title-section">
+    <h1>{{ video.title }}</h1>
+  </div>
+  <div class="description-section">
+    <p>{{ video.description }}</p>
+  </div>
+  <div class="play-button-section">
+    <button
+      type="button"
+      (click)="videoService.openVideoPlayer(video.id.toString())"
+    >
+      Play
+    </button>
+  </div>
+</section>

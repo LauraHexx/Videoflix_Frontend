@@ -11,6 +11,7 @@ import { MediaHomeComponent } from './features/main/componentes/media-home/media
 import { authGuard } from './core/guards/auth.guard';
 import { noAuthGuard } from './core/guards/auth.guard';
 import { VideoPlayerComponent } from './features/main/componentes/video-player/video-player.component';
+import { VideoDetailComponent } from './features/main/componentes/video-detail/video-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [noAuthGuard] },
@@ -42,6 +43,11 @@ export const routes: Routes = [
   {
     path: 'video/:id',
     component: VideoPlayerComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'video-detail/:id',
+    component: VideoDetailComponent,
     canActivate: [authGuard],
   },
 ];

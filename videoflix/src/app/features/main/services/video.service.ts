@@ -88,4 +88,8 @@ export class VideoService {
   openVideoPlayer(videoId: string): void {
     this.router.navigate(['/video', videoId]);
   }
+
+  openVideoDetail(videoId: string): void {
+    this.router.navigate(['/video-detail', videoId]);
+  }
 }
