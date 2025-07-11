@@ -24,8 +24,9 @@ section {
   }
 
   img {
-    width: 200px;
-    height: 100px;
+    width: 300px;
+    height: 170px;
+    border-radius: 10px;
     object-fit: cover;
   }
 
@@ -42,7 +43,8 @@ section {
 
   &:hover {
     &::after {
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0);
+      box-shadow: inset 0 0 20px rgba(43, 58, 207, 0.9);
+      border-radius: 10px;
       cursor: pointer;
     }
 
