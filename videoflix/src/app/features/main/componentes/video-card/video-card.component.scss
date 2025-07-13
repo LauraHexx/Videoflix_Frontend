@@ -43,7 +43,7 @@ section {
 
   &:hover {
     &::after {
-      box-shadow: inset 0 0 20px rgba(43, 58, 207, 0.9);
+      box-shadow: inset 0 0 10px rgba(131, 131, 131, 0.9);
       border-radius: 10px;
       cursor: pointer;
     }
