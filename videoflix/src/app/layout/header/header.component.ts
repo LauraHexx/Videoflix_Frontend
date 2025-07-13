@@ -44,8 +44,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         const url = event.urlAfterRedirects.toLowerCase();
         this.updateUIState(url);
       });
-
-    // Initial aufrufen
     this.updateUIState(this.router.url.toLowerCase());
   }
 

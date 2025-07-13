@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
+import { Router } from '@angular/router';
 import { ApiService } from '../../../core/services/api-service/api.service';
 import { VideosEndpoints } from '../../../core/endpoints/endpoints';
 import { Video } from '../../../shared/models/video';
 import { UserWatchHistory } from '../../../shared/models/user-watch-history';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',

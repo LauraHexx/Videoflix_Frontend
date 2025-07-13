@@ -1,4 +1,4 @@
-<div class="category-grid">
+<div *ngIf="hasContinueWatching" class="category-grid">
   <div class="category-grid__title">Continue Watching</div>
   <app-video-carousel [isContinueWatching]="true"></app-video-carousel>
 </div>

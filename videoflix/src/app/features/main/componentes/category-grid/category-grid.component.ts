@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VideoCarouselComponent } from '../video-carousel/video-carousel.component';
 import { VideoService } from '../../services/video.service';
+import { UserWatchHistory } from '../../../../shared/models/user-watch-history';
 
 @Component({
   selector: 'app-category-grid',
@@ -12,15 +13,31 @@ import { VideoService } from '../../services/video.service';
 })
 export class CategoryGridComponent implements OnInit {
   genres: string[] = [];
+  hasContinueWatching = false;
 
   constructor(private videoService: VideoService) {}
 
   /**
    * Lifecycle hook called on component initialization.
-   * Initiates loading of genres.
+   * Initiates loading of genres and userwatchhistory.
    */
   ngOnInit(): void {
+    this.loadUserWatchHistory();
     this.loadGenres();
+  }
+
+  /**
+   * Loads the user's watch history and updates the flag
+   * if any video has progress greater than 0.
+   */
+  private loadUserWatchHistory(): void {
+    this.videoService
+      .getVideoWatchHistory()
+      .subscribe((watchHistory: UserWatchHistory[]) => {
+        this.hasContinueWatching = watchHistory.some(
+          (history) => history.progress > 0
+        );
+      });
   }
 
   /**
