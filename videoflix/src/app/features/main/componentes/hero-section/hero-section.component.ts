@@ -1,4 +1,12 @@
-import { Component, ViewChild, ElementRef, inject, Input } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { VideoService } from '../../services/video.service';
 import { Video } from '@shared/models/video';
 import { NgIf } from '@angular/common';
@@ -9,18 +17,23 @@ import { NgIf } from '@angular/common';
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss',
 })
-export class HeroSectionComponent {
+export class HeroSectionComponent implements OnChanges {
   @ViewChild('Video') videoRef!: ElementRef<HTMLVideoElement>;
   videoService = inject(VideoService);
   @Input() videoId: string | null = null;
   video: Video | null = null;
 
-  ngOnInit(): void {
-    this.loadVideoById(this.videoId);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['videoId'] &&
+      changes['videoId'].currentValue !== changes['videoId'].previousValue
+    ) {
+      this.loadVideo(this.videoId);
+    }
   }
 
   public tryPlayVideo() {
-    if (this.videoRef && this.videoRef.nativeElement) {
+    if (this.videoRef?.nativeElement) {
       const video = this.videoRef.nativeElement;
       video.muted = true;
       video.play().catch((error) => {
@@ -33,7 +46,7 @@ export class HeroSectionComponent {
     this.videoService.openVideoPlayer(videoId.toString());
   }
 
-  private loadVideoById(id: string | null): void {
+  private loadVideo(id: string | null): void {
     if (!id) return;
     this.videoService.getVideoById(id).subscribe({
       next: (video) => {

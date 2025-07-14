@@ -1,5 +1,12 @@
 <div class="main-wrapper">
   <section>
-    <app-hero-section *ngIf="videoId" [videoId]="videoId"></app-hero-section>
+    <app-hero-section
+      *ngIf="videoId && genre"
+      [videoId]="videoId"
+    ></app-hero-section>
+    <div class="recommendations-wrapper">
+      <div class="more-like-title">More Like This:</div>
+      <app-video-carousel [genre]="genre"></app-video-carousel>
+    </div>
   </section>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VideoCarouselComponent } from '../video-carousel/video-carousel.component';
 import { VideoService } from '../../services/video.service';
@@ -15,7 +15,7 @@ export class CategoryGridComponent implements OnInit {
   genres: string[] = [];
   hasContinueWatching = false;
 
-  constructor(private videoService: VideoService) {}
+  videoService = inject(VideoService);
 
   /**
    * Lifecycle hook called on component initialization.
