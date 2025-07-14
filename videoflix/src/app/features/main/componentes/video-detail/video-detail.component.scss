@@ -1,61 +1,18 @@
 @use "styles.scss" as *;
 
+.main-wrapper {
+  @include dFlex($fd: column, $jc: flex-start, $ai: center);
+  width: 100%;
+  min-height: 100vh;
+}
+
 section {
   @include dFlex($fd: column, $jc: flex-start, $ai: flex-start);
   width: 100%;
   max-width: 1980px;
-  max-height: 800px;
+  min-height: 100vh;
 }
 
-.hero-section {
-  position: relative;
+app-hero-section {
   width: 100%;
-  height: 100vh;
-  background: black;
-}
-
-.hero-overlay {
-  position: absolute;
-  @include dFlex($fd: column, $jc: center, $ai: flex-start);
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  background: linear-gradient(
-    to bottom,
-    rgba(20, 20, 20, 0.75) 0%,
-    rgba(20, 20, 20, 0.7) 40%,
-    rgba(20, 20, 20, 0.9) 80%,
-    rgba(20, 20, 20, 0.9) 90%,
-    rgba(20, 20, 20, 0.95) 95%,
-    rgb(20, 20, 20)
-  );
-  display: flex;
-  padding-left: 96px;
-  z-index: 20;
-  button {
-    margin-top: 32px;
-  }
-}
-
-.title-section {
-  font-size: 64px;
-  font-weight: 700;
-}
-
-.description-section {
-  color: white;
-
-  font-size: 16px;
-  font-weight: 400;
-}
-
-.play-button {
-}
-
-@media (max-width: 768px) {
-  .hero-overlay {
-    padding: 20px;
-  }
 }

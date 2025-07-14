@@ -1,22 +1,5 @@
-<section *ngIf="video">
-  <div class="hero-section">
-    <div class="hero-overlay">
-      <div class="title-section">
-        <h1>{{ video.title }}</h1>
-      </div>
-      <div class="description-section">
-        <p>{{ video.description }}</p>
-      </div>
-      <div class="play-button-section">
-        <button
-          class="play-button"
-          type="button"
-          (click)="videoService.openVideoPlayer(video.id.toString())"
-        >
-          Play
-        </button>
-      </div>
-    </div>
-    <img [src]="video.thumbnail_url" alt="thumbnail" />
-  </div>
-</section>
+<div class="main-wrapper">
+  <section>
+    <app-hero-section *ngIf="videoId" [videoId]="videoId"></app-hero-section>
+  </section>
+</div>

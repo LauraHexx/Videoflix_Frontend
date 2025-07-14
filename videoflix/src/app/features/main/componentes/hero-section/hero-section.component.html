@@ -1,9 +1,8 @@
-<section class="hero-section">
-  <!-- Video (immer da) -->
+<section *ngIf="video" class="hero-section">
   <video
-    #heroVideo
-    [src]="topPickVideo?.video_file"
-    [poster]="topPickVideo?.thumbnail_url"
+    #Video
+    [src]="video.video_file"
+    [poster]="video.thumbnail_url"
     muted
     loop
     playsinline
@@ -15,14 +14,14 @@
 
   <div class="hero-overlay">
     <div class="hero-content">
-      <h1 class="hero-title">{{ topPickVideo?.title || "No title" }}</h1>
+      <h1 class="hero-title">{{ video.title || "No title" }}</h1>
       <p class="hero-description">
-        {{ topPickVideo?.description || "No description" }}
+        {{ video.description || "No description" }}
       </p>
       <div class="hero-actions">
         <button
-          *ngIf="topPickVideo?.id as videoId"
-          (click)="videoService.openVideoPlayer(videoId.toString())"
+          *ngIf="video?.id as videoId"
+          (click)="openVideoPlayer(video.id)"
         >
           <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
             <path d="M8 5v14l11-7z" />

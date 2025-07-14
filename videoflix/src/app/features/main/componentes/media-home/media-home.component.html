@@ -1,6 +1,6 @@
 <div class="main-wrapper">
   <section>
-    <app-hero-section></app-hero-section>
+    <app-hero-section *ngIf="video" [videoId]="videoId"></app-hero-section>
     <app-category-grid></app-category-grid>
   </section>
 </div>

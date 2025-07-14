@@ -1,11 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  ElementRef,
-  inject,
-  AfterViewInit,
-} from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ViewChild, ElementRef, inject, Input } from '@angular/core';
 import { VideoService } from '../../services/video.service';
 import { Video } from '@shared/models/video';
 import { NgIf } from '@angular/common';
@@ -16,41 +9,37 @@ import { NgIf } from '@angular/common';
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss',
 })
-export class HeroSectionComponent implements AfterViewInit {
-  @ViewChild('heroVideo') heroVideoRef!: ElementRef<HTMLVideoElement>;
+export class HeroSectionComponent {
+  @ViewChild('Video') videoRef!: ElementRef<HTMLVideoElement>;
   videoService = inject(VideoService);
-  private router = inject(Router);
-  topPickVideo: Video | null = null;
+  @Input() videoId: string | null = null;
+  video: Video | null = null;
 
-  ngOnInit() {
-    this.videoService.getHeroVideo().subscribe((video) => {
-      this.topPickVideo = video;
-      // When video data is loaded, try to play the video
-      setTimeout(() => {
-        this.tryPlayVideo();
-      }, 100);
-    });
-  }
-
-  ngAfterViewInit() {
-    // Try to play video after view is initialized
-    setTimeout(() => {
-      this.tryPlayVideo();
-    }, 500);
+  ngOnInit(): void {
+    this.loadVideoById(this.videoId);
   }
 
   public tryPlayVideo() {
-    if (this.heroVideoRef && this.heroVideoRef.nativeElement) {
-      const video = this.heroVideoRef.nativeElement;
-
-      // Ensure video is muted for autoplay to work
+    if (this.videoRef && this.videoRef.nativeElement) {
+      const video = this.videoRef.nativeElement;
       video.muted = true;
-
-      // Try to play the video
       video.play().catch((error) => {
         console.log('Autoplay prevented:', error);
-        // If autoplay fails, we can add a fallback or retry mechanism
       });
     }
+  }
+
+  public openVideoPlayer(videoId: number) {
+    this.videoService.openVideoPlayer(videoId.toString());
+  }
+
+  private loadVideoById(id: string | null): void {
+    if (!id) return;
+    this.videoService.getVideoById(id).subscribe({
+      next: (video) => {
+        this.video = video;
+      },
+      error: (err) => console.error('Error loading video:', err),
+    });
   }
 }
