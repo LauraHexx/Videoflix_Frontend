@@ -20,13 +20,22 @@
       </p>
       <div class="hero-actions">
         <button
-          *ngIf="video?.id as videoId"
-          (click)="openVideoPlayer(video.id)"
+          class="play-button"
+          type="button"
+          (click)="startFromBeginning()"
         >
-          <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z" />
-          </svg>
-          Play
+          <img src="/imgs/continue.png" alt="continue icon" />
+          Play from Beginning
+        </button>
+        <button
+          *ngIf="video.watch_progress > 0"
+          class="play-button"
+          type="button"
+          (click)="videoService.openVideoPlayer(video.id.toString())"
+        >
+          <img src="/imgs/play.png" alt="play icon" />
+
+          Continue Watching
         </button>
       </div>
     </div>

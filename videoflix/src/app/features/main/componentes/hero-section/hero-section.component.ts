@@ -64,4 +64,22 @@ export class HeroSectionComponent implements OnChanges {
       error: (err) => console.error('Error loading video:', err),
     });
   }
+
+  /**
+   * Resets the watch progress of the current video to 0 and opens the video player.
+   * Only executes if a valid video ID is available.
+   * Sends a POST request to update the watch history before launching the player.
+   */
+  public startFromBeginning(): void {
+    if (this.video?.id !== undefined) {
+      const videoId = this.video.id.toString();
+
+      this.videoService.postVideoWatchHistory(videoId, 0).subscribe({
+        next: () => {
+          this.videoService.openVideoPlayer(videoId);
+        },
+        error: (err) => console.error('Failed to reset watch progress', err),
+      });
+    }
+  }
 }
