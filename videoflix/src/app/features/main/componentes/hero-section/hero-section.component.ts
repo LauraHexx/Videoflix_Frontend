@@ -10,6 +10,8 @@ import {
 import { VideoService } from '../../services/video.service';
 import { Video } from '@shared/models/video';
 import { NgIf } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { Subscription, combineLatest, startWith, filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-hero-section',
@@ -18,6 +20,13 @@ import { NgIf } from '@angular/common';
   styleUrl: './hero-section.component.scss',
 })
 export class HeroSectionComponent implements OnChanges {
+  private router = inject(Router);
+
+  private subscription = new Subscription();
+  isTargetPageAndSmallScreen = false;
+
+  constructor() {}
+
   @ViewChild('Video') videoRef!: ElementRef<HTMLVideoElement>;
   videoService = inject(VideoService);
   @Input() videoId: string | null = null;

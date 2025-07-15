@@ -1,9 +1,9 @@
 <header [style.background]="getHeaderBackgroundColor()">
   <div class="logo">
-    <img [src]="getLogoImage()" alt="logo" />
+    <img (click)="goToMediaHome()" [src]="getLogoImage()" alt="logo" />
   </div>
   <button *ngIf="showButton" (click)="handleButtonClick()">
-    <img src="imgs/logout.png" alt="logout" />
+    <img *ngIf="checkIfLoggedIn()" src="imgs/logout.svg" alt="logout" />
     {{ getButtonText() }}
   </button>
   <img

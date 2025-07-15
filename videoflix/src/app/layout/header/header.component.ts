@@ -47,6 +47,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.updateUIState(this.router.url.toLowerCase());
   }
 
+  public checkIfLoggedIn() {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      if (localStorage.getItem('auth-token') != undefined) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   /**
    * Listens to scroll events and updates header background opacity.
    */
@@ -72,8 +84,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private updateUIState(url: string): void {
     this.showButton = this.shouldShowButton(url);
     this.showArrowBack = this.shouldShowArrowBack(url);
-    this.isMediaHome = this.isMediaHomePage(url);
-    this.isVideoPlayer = this.isVideoPlayerPage(url);
     // Reset opacity when route changes
     if (!this.isMediaHome) {
       this.headerOpacity = 0;
@@ -90,14 +100,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private shouldShowArrowBack(url: string): boolean {
     return url.includes('privacy-policy') || url.includes('imprint');
-  }
-
-  private isMediaHomePage(url: string): boolean {
-    return url.includes('media-home');
-  }
-
-  private isVideoPlayerPage(url: string): boolean {
-    return /\/video\/\d+/.test(url);
   }
 
   /**
@@ -135,21 +137,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Gets the button text based on current route.
+   * Gets the button text based on localStorage state.
    */
   getButtonText(): string {
-    return this.isMediaHome || this.isVideoPlayer ? 'Log Out' : 'Log in';
+    return this.checkIfLoggedIn() ? 'Log Out' : 'Log in';
   }
 
   getLogoImage(): string {
-    return this.isMediaHome ? '/imgs/logo-no-text.png' : '/imgs/logo.png';
+    return this.checkIfLoggedIn() ? '/imgs/logo-no-text.svg' : '/imgs/logo.png';
   }
 
   /**
-   * Handles button click - login or logout based on current route.
+   * Handles button click - login or logout based on localStorage state.
    */
   handleButtonClick(): void {
-    if (this.isMediaHome) {
+    if (this.checkIfLoggedIn()) {
       this.logout();
     } else {
       this.goToLogin();
@@ -175,6 +177,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.authService.removeAuthCredentials();
       this.router.navigate(['/home']);
     }
+  }
+
+  public goToMediaHome() {
+    console.log('go home');
+    this.router.navigate(['/media-home']);
   }
 
   /**

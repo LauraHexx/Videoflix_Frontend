@@ -53,3 +53,44 @@ section {
     }
   }
 }
+
+@media (max-width: $MediaQueryBreakPoint1) {
+  .video-card__thumbnail {
+    img {
+      width: 260px;
+      height: 146px;
+    }
+  }
+}
+@media (max-width: $MediaQueryBreakPoint2) {
+  .video-card__thumbnail {
+    img {
+      width: 220px;
+      height: 114px;
+    }
+  }
+}
+@media (max-width: $MediaQueryBreakPoint3) {
+  .video-card__thumbnail {
+    img {
+      width: 180px;
+      height: 101px;
+    }
+  }
+}
+@media (max-width: $MediaQueryBreakPoint4) {
+  .video-card__thumbnail {
+    img {
+      width: 140px;
+      height: 79px;
+    }
+  }
+}
+@media (max-width: $MediaQueryBreakPoint5) {
+  .video-card__thumbnail {
+    img {
+      width: 120px;
+      height: 68px;
+    }
+  }
+}

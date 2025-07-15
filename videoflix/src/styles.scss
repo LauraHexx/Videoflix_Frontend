@@ -1,10 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 
+$MediaQueryBreakPoint1: 1200px;
+$MediaQueryBreakPoint2: 991px;
+$MediaQueryBreakPoint3: 768px;
+$MediaQueryBreakPoint4: 576px;
+$MediaQueryBreakPoint5: 448px;
+
+$main-left-right-distance1: 96px;
+$main-left-right-distance2: 86px;
+$main-left-right-distance3: 56px;
+$main-left-right-distance4: 36px;
+$main-left-right-distance5: 16px;
+
 @font-face {
   font-family: "DM Sans";
   src: url("./assets/fonts/DMSans-VariableFont_opsz,wght.ttf")
     format("truetype");
-  font-weight: 100 900; // Variable Font unterstützt alle Gewichte
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -54,12 +66,9 @@ button {
   background-color: var(--primary-color);
   color: var(--white);
   border: none;
-  padding-top: 12px;
-  padding-right: 24px;
-  padding-bottom: 12px;
-  padding-left: 24px;
+  padding: 12px 24px;
   border-radius: 40px;
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.25s ease;
@@ -230,5 +239,41 @@ h6 {
   .error {
     font-size: 12px;
     color: var(--error);
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint1) {
+  button {
+    padding: 12px, 24px;
+    border-radius: 40px;
+    font-size: 16px !important;
+    font-weight: 700;
+    gap: 4px;
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint2) {
+}
+
+@media (max-width: $MediaQueryBreakPoint3) {
+}
+
+@media (max-width: $MediaQueryBreakPoint4) {
+  button {
+    padding: 12px, 24px;
+    border-radius: 40px;
+    font-size: 14px !important;
+    font-weight: 700;
+    gap: 4px;
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint5) {
+  button {
+    padding: 8px, 18px;
+    border-radius: 40px;
+    font-size: 14px !important;
+    font-weight: 600;
+    gap: 4px;
   }
 }

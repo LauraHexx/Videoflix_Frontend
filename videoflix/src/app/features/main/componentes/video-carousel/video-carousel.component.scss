@@ -36,3 +36,30 @@ section {
   pointer-events: none; // Damit man trotzdem scrollen kann
   z-index: 10;
 }
+
+@media (max-width: $MediaQueryBreakPoint1) {
+  .scroll-container {
+    gap: 16px;
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint2) {
+  .scroll-container {
+    gap: 14px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint3) {
+  .scroll-container {
+    gap: 12px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint4) {
+  .scroll-container {
+    gap: 10px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint5) {
+  .scroll-container {
+    gap: 8px;
+  }
+}

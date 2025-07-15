@@ -18,3 +18,54 @@ app-video-carousel {
   margin-bottom: 16px;
   text-transform: capitalize;
 }
+
+@media (max-width: $MediaQueryBreakPoint1) {
+  .category-grid {
+    margin-left: 72px;
+    margin-bottom: 40px;
+  }
+  .category-grid__title {
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint2) {
+  .category-grid {
+    margin-left: 48px;
+    margin-bottom: 32px;
+  }
+  .category-grid__title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint3) {
+  .category-grid {
+    margin-left: 32px;
+    margin-bottom: 24px;
+  }
+  .category-grid__title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint4) {
+  .category-grid {
+    margin-left: 24px;
+    margin-bottom: 16px;
+  }
+  .category-grid__title {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint5) {
+  .category-grid {
+    margin-left: 24px;
+    margin-bottom: 16px;
+  }
+  .category-grid__title {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+}

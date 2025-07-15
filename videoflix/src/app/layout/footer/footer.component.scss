@@ -1,3 +1,5 @@
+@use "styles.scss" as *;
+
 .footer-auth {
   position: fixed;
   bottom: 0;
@@ -35,4 +37,29 @@
     justify-content: right;
     gap: 48px;
   }
+}
+
+@media (max-width: $MediaQueryBreakPoint1) {
+}
+@media (max-width: $MediaQueryBreakPoint2) {
+}
+@media (max-width: $MediaQueryBreakPoint3) {
+  a {
+    font-size: 16px;
+  }
+  .footer-main {
+    right: auto;
+    padding-right: 0;
+    nav {
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint4) {
+  a {
+    font-size: 14px;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint5) {
 }
