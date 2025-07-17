@@ -44,17 +44,15 @@ export class ForgotPasswordComponent {
    */
   async onSubmit(): Promise<void> {
     if (this.forgotPasswordForm.invalid) return;
-
     const email = this.forgotPasswordForm.value.email;
     const formData = new FormData();
     formData.append('email', email);
 
     try {
-      await this.authService.postData('password-reset/request/', formData);
+      await this.authService.forgotPassword(formData).toPromise();
     } catch (error) {
       console.error('Password reset request failed:', error);
     }
-
     this.showNotification();
   }
 

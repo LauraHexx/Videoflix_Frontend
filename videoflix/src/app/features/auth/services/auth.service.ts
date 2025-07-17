@@ -59,6 +59,17 @@ export class AuthService {
       .pipe(map((response) => response));
   }
 
+  /**
+   * Sends a password reset request with FormData containing the user's email.
+   * @param formData - Must include 'email'
+   * @returns Observable of HttpResponse for password reset request
+   */
+  forgotPassword(formData: FormData): Observable<HttpResponse<any>> {
+    return this.apiService
+      .post<any>(UserEndpoints.passwordRest, formData, false)
+      .pipe(map((response) => response));
+  }
+
   //todo: must be changed...
 
   async postData(endpoint: string, formData: FormData): Promise<any> {
