@@ -9,6 +9,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { ApiService } from '../../../core/services/api-service/api.service';
 
@@ -154,13 +155,20 @@ export class SignUpComponent implements OnInit {
    */
   async onSubmit(): Promise<void> {
     if (!this.signUpForm.valid) return;
-
     const formData = this.createFormDataFromForm();
-    const response = await this.authService.postData('registration/', formData);
-
-    if (this.isSuccessful(response)) {
-      this.finalizeSuccessfulSubmission();
-    } else {
+    try {
+      const response = await firstValueFrom(
+        this.authService.register(formData)
+      );
+      if (response.status === 200 || response.status === 201) {
+        console.log(response.status);
+        this.finalizeSuccessfulSubmission();
+      } else {
+        console.log(response.status);
+        this.showErrorTemporarily();
+      }
+    } catch (error: any) {
+      console.error('Registration failed:', error);
       this.showErrorTemporarily();
     }
   }

@@ -6,7 +6,9 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { ApiService } from '../../../core/services/api-service/api.service';
 import { AuthService } from '../services/auth.service';
 
@@ -53,8 +55,14 @@ export class HomeComponent {
   async onSubmit() {
     const email = this.getEmailFromForm();
     if (!email) return;
-    const result = await this.verifyEmail(email);
-    this.handleVerificationResult(result, email);
+
+    try {
+      const result = await this.verifyEmail(email);
+      this.handleVerificationResult(result, email);
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      this.showErrorTemporarily();
+    }
   }
 
   /**
@@ -67,14 +75,14 @@ export class HomeComponent {
   }
 
   /**
-   * Sends email to API for verification.
+   * Sends email to API for registration.
    * @param email Email address
    * @returns API result object
    */
-  private async verifyEmail(email: string): Promise<any> {
+  private async verifyEmail(email: string): Promise<HttpResponse<any>> {
     const formData = new FormData();
     formData.append('email', email);
-    return await this.authService.postData('registration/', formData);
+    return await firstValueFrom(this.authService.register(formData));
   }
 
   /**

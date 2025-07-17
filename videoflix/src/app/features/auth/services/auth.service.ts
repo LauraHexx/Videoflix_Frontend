@@ -49,6 +49,17 @@ export class AuthService {
   }
 
   /**
+   * Sends a registration request with FormData and returns full HTTP response as Observable.
+   * @param formData - Must include 'email', 'username', 'password', etc.
+   * @returns Observable of HttpResponse for registration request
+   */
+  register(formData: FormData): Observable<HttpResponse<any>> {
+    return this.apiService
+      .post<any>(UserEndpoints.registration, formData, false)
+      .pipe(map((response) => response));
+  }
+
+  /**
    * Sends login request with FormData and returns full HTTP response as Observable.
    * @param formData - Must include 'email' and 'password'
    * @returns Observable of HttpResponse with full login response
