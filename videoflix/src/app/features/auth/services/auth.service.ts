@@ -11,6 +11,12 @@ import { UserEndpoints } from '../../../core/endpoints/endpoints';
 export class AuthService {
   constructor(private apiService: ApiService) {}
 
+  /**
+   * Stores authentication credentials (token, user ID, username) in localStorage.
+   * @param token - Authentication token string
+   * @param userId - User identifier string
+   * @param username - Username string
+   */
   setAuthCredentials(token: string, userId: string, username: string): void {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.setItem('auth-token', token);
@@ -19,6 +25,9 @@ export class AuthService {
     }
   }
 
+  /**
+   * Removes authentication credentials from localStorage.
+   */
   removeAuthCredentials(): void {
     if (typeof window !== 'undefined' && window.localStorage) {
       ['auth-token', 'auth-user-id', 'auth-user'].forEach((k) =>
@@ -27,6 +36,10 @@ export class AuthService {
     }
   }
 
+  /**
+   * Retrieves the authentication token from localStorage.
+   * @returns The stored auth token string or null if not found
+   */
   getAuthToken(): string | null {
     if (typeof window !== 'undefined' && window.localStorage) {
       return localStorage.getItem('auth-token');
