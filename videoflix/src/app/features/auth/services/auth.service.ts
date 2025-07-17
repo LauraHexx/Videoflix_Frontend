@@ -34,20 +34,6 @@ export class AuthService {
     return null;
   }
 
-  getAuthUser(): string | null {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem('auth-user');
-    }
-    return null;
-  }
-
-  getAuthUserId(): string | null {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem('auth-user-id');
-    }
-    return null;
-  }
-
   /**
    * Sends a registration request with FormData and returns full HTTP response as Observable.
    * @param formData - Must include 'email', 'username', 'password', etc.
