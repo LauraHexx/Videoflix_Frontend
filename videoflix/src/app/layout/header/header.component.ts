@@ -82,6 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * Sets visibility for login button and back arrow based on route.
    */
   private updateUIState(url: string): void {
+    this.isVideoPlayer = url.startsWith('/video/');
     this.showButton = this.shouldShowButton(url);
     this.showArrowBack = this.shouldShowArrowBack(url);
     // Reset opacity when route changes

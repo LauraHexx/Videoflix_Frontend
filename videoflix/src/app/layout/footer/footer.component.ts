@@ -39,9 +39,14 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   /**
    * Returns true if the footer should be shown.
+   * Hides it on legal pages and video player routes.
    */
   private shouldShowFooter(url: string): boolean {
-    return !(url.includes('privacy-policy') || url.includes('imprint'));
+    return !(
+      url.includes('privacy-policy') ||
+      url.includes('imprint') ||
+      url.startsWith('/video/')
+    );
   }
 
   /**

@@ -1,4 +1,4 @@
-<header [style.background]="getHeaderBackgroundColor()">
+<header *ngIf="!isVideoPlayer" [style.background]="getHeaderBackgroundColor()">
   <div class="logo">
     <img (click)="goToMediaHome()" [src]="getLogoImage()" alt="logo" />
   </div>
