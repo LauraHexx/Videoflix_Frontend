@@ -80,6 +80,20 @@ header {
 }
 
 @media (max-width: $MediaQueryBreakPoint3) {
+  header {
+    padding-left: $main-left-right-distance3;
+    padding-right: $main-left-right-distance3;
+    img {
+      width: 32px;
+      height: auto;
+    }
+    button {
+      img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
 }
 
 @media (max-width: $MediaQueryBreakPoint4) {

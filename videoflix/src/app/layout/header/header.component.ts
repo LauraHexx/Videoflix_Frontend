@@ -64,17 +64,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
    */
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    if (this.isMediaHome) {
-      const scrollPosition = window.scrollY;
-      const maxScroll = 58; // 58px threshold
+    const scrollPosition = window.scrollY;
+    const maxScroll = 58; // 58px threshold
 
-      if (scrollPosition <= maxScroll) {
-        this.headerOpacity = scrollPosition / maxScroll;
-      } else {
-        this.headerOpacity = 1;
-      }
+    if (scrollPosition <= maxScroll) {
+      this.headerOpacity = scrollPosition / maxScroll;
     } else {
-      this.headerOpacity = 0;
+      this.headerOpacity = 1;
     }
   }
 

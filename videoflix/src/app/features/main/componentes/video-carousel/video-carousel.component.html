@@ -1,7 +1,7 @@
 <div class="scroll-container">
   <ng-container *ngIf="videos$ | async as videos">
     <ng-container *ngFor="let video of videos; trackBy: trackByVideoId">
-      <app-video-card [video]="video"></app-video-card>
+      <app-video-card class="video-card" [video]="video"></app-video-card>
     </ng-container>
   </ng-container>
 </div>

@@ -36,8 +36,17 @@ app-hero-section {
 @media (max-width: $MediaQueryBreakPoint2) {
 }
 @media (max-width: $MediaQueryBreakPoint3) {
+  .recommendations-wrapper {
+    padding-left: $main-left-right-distance3;
+  }
 }
 @media (max-width: $MediaQueryBreakPoint4) {
+  .recommendations-wrapper {
+    padding-left: $main-left-right-distance4;
+  }
 }
 @media (max-width: $MediaQueryBreakPoint5) {
+  .recommendations-wrapper {
+    padding-left: $main-left-right-distance5;
+  }
 }
