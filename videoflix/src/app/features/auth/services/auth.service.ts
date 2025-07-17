@@ -85,47 +85,4 @@ export class AuthService {
       .post<any>(UserEndpoints.passwordConfirm, formData, false)
       .pipe(map((response) => response));
   }
-
-  //todo: must be changed...
-
-  async postData(endpoint: string, formData: FormData): Promise<any> {
-    return firstValueFrom(this.apiService.post(endpoint, formData, false));
-  }
-
-  async postDataWJSON(endpoint: string, data: any): Promise<any> {
-    return firstValueFrom(this.apiService.post(endpoint, data, true));
-  }
-
-  async getData(endpoint: string): Promise<any> {
-    return firstValueFrom(this.apiService.get(endpoint));
-  }
-
-  async patchData(endpoint: string, formData: FormData): Promise<any> {
-    return firstValueFrom(this.apiService.patch(endpoint, formData, false));
-  }
-
-  async patchDataWoFiles(endpoint: string, data: any): Promise<any> {
-    return firstValueFrom(this.apiService.patch(endpoint, data, true));
-  }
-
-  async deleteData(endpoint: string): Promise<any> {
-    return firstValueFrom(this.apiService.delete(endpoint));
-  }
-
-  // isAuthenticated(): boolean {
-  //   const token = this.getAuthToken();
-  //   return !!token;
-  // }
-
-  // // Optional: Token-Validierung gegen Backend
-  // async validateToken(): Promise<boolean> {
-  //   try {
-  //     const response = await this.getData('validate-token/');
-  //     return response && response.ok;
-  //   } catch (error) {
-  //     console.error('Token validation failed:', error);
-  //     this.removeAuthCredentials();
-  //     return false;
-  //   }
-  // }
 }

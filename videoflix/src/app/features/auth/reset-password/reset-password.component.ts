@@ -139,7 +139,6 @@ export class ResetPasswordComponent implements OnInit {
 
     const formData = this.createFormDataFromForm();
     try {
-      // Hier die neue resetPassword-Methode verwenden, nicht postData
       const response = await firstValueFrom(
         this.authService.resetPassword(formData)
       );
