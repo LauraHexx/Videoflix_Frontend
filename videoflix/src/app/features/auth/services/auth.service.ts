@@ -80,6 +80,11 @@ export class AuthService {
       .pipe(map((response) => response));
   }
 
+  /**
+   * Sends a password reset confirmation request with form data.
+   * @param formData - FormData containing reset token and new password details
+   * @returns Observable of HttpResponse with the API response
+   */
   resetPassword(formData: FormData): Observable<HttpResponse<any>> {
     return this.apiService
       .post<any>(UserEndpoints.passwordConfirm, formData, false)
