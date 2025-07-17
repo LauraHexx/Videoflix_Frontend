@@ -7,6 +7,7 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../../core/services/api-service/api.service';
@@ -23,6 +24,7 @@ export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   showPassword = false;
   showRepeatedPassword = false;
+  errorVisible = false;
   token: string | null = null;
 
   constructor(
@@ -136,15 +138,19 @@ export class ResetPasswordComponent implements OnInit {
     if (!this.resetPasswordForm.valid || !this.token) return;
 
     const formData = this.createFormDataFromForm();
-    const response = await this.authService.postData(
-      'password-reset/confirm/',
-      formData
-    );
+    try {
+      // Hier die neue resetPassword-Methode verwenden, nicht postData
+      const response = await firstValueFrom(
+        this.authService.resetPassword(formData)
+      );
 
-    if (this.isSuccessful(response)) {
-      this.router.navigate(['/login']);
-    } else {
-      this.handleSubmissionError(response);
+      if (this.isSuccessful(response)) {
+        this.router.navigate(['/login']);
+      } else {
+        this.showErrorTemporarily();
+      }
+    } catch (error: any) {
+      this.showErrorTemporarily();
     }
   }
 
@@ -168,11 +174,19 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   /**
-   * Handles failed password reset.
+   * Shows error and hides it after 3 seconds.
    */
-  private handleSubmissionError(response: any): void {
-    const errorMessage =
-      response?.data?.detail || response?.message || 'Unknown error';
-    console.error('Password reset failed:', errorMessage);
+  private showErrorTemporarily(): void {
+    this.errorVisible = true;
+    setTimeout(() => {
+      this.errorVisible = false;
+    }, 3000);
+  }
+
+  /**
+   * Hides the error container by setting errorVisible to false.
+   */
+  hideError(): void {
+    this.errorVisible = false;
   }
 }

@@ -81,6 +81,12 @@ export class AuthService {
       .pipe(map((response) => response));
   }
 
+  resetPassword(formData: FormData): Observable<HttpResponse<any>> {
+    return this.apiService
+      .post<any>(UserEndpoints.passwordConfirm, formData, false)
+      .pipe(map((response) => response));
+  }
+
   //todo: must be changed...
 
   async postData(endpoint: string, formData: FormData): Promise<any> {

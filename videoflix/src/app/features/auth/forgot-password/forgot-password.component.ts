@@ -47,13 +47,13 @@ export class ForgotPasswordComponent {
     const email = this.forgotPasswordForm.value.email;
     const formData = new FormData();
     formData.append('email', email);
+    this.showNotification();
 
     try {
       await this.authService.forgotPassword(formData).toPromise();
     } catch (error) {
       console.error('Password reset request failed:', error);
     }
-    this.showNotification();
   }
 
   /**
