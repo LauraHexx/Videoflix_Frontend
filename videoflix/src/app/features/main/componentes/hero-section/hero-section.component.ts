@@ -9,13 +9,13 @@ import {
 } from '@angular/core';
 import { VideoService } from '../../services/video.service';
 import { Video } from '@shared/models/video';
-import { NgIf } from '@angular/common';
+import { NgIf, CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription, combineLatest, startWith, filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-hero-section',
-  imports: [NgIf],
+  imports: [NgIf, CommonModule],
   templateUrl: './hero-section.component.html',
   styleUrl: './hero-section.component.scss',
 })
@@ -24,8 +24,6 @@ export class HeroSectionComponent implements OnChanges {
 
   private subscription = new Subscription();
   isTargetPageAndSmallScreen = false;
-
-  constructor() {}
 
   @ViewChild('Video') videoRef!: ElementRef<HTMLVideoElement>;
   videoService = inject(VideoService);
@@ -81,5 +79,9 @@ export class HeroSectionComponent implements OnChanges {
         error: (err) => console.error('Failed to reset watch progress', err),
       });
     }
+  }
+
+  public checkIfMediaHome(): boolean {
+    return this.router.url.includes('media-home');
   }
 }

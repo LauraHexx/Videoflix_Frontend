@@ -151,6 +151,12 @@ section {
   .hero-overlay {
     padding: $main-left-right-distance3;
   }
+  .button-text {
+    display: none;
+  }
+  .hide-hero-media-home {
+    display: none;
+  }
 }
 @media (max-width: $MediaQueryBreakPoint4) {
   section {

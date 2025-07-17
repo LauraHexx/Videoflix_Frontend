@@ -1,4 +1,8 @@
-<section *ngIf="video" class="hero-section">
+<section
+  *ngIf="video"
+  class="hero-section"
+  [ngClass]="{ 'hide-hero-media-home': checkIfMediaHome() }"
+>
   <video
     #Video
     [src]="video.video_file"
@@ -25,7 +29,7 @@
           (click)="startFromBeginning()"
         >
           <img src="/imgs/continue.png" alt="continue icon" />
-          Play from Beginning
+          <div class="button-text">Play from Beginning</div>
         </button>
         <button
           *ngIf="video.watch_progress > 0"
@@ -34,8 +38,7 @@
           (click)="videoService.openVideoPlayer(video.id.toString())"
         >
           <img src="/imgs/play.png" alt="play icon" />
-
-          Continue Watching
+          <div class="button-text">Continue Watching</div>
         </button>
       </div>
     </div>

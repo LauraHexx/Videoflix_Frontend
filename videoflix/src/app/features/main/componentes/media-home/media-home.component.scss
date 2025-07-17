@@ -28,3 +28,17 @@ app-category-grid {
     @include dFlex($fd: column, $jc: flex-start, $ai: center);
   }
 }
+
+@media (max-width: $MediaQueryBreakPoint1) {
+}
+@media (max-width: $MediaQueryBreakPoint2) {
+}
+@media (max-width: $MediaQueryBreakPoint3) {
+  .category-grid-mt {
+    margin-top: 100px !important;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint4) {
+}
+@media (max-width: $MediaQueryBreakPoint5) {
+}

@@ -18,13 +18,26 @@ app-hero-section {
 }
 
 .recommendations-wrapper {
-  margin-left: 96px;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding-left: 96px;
 }
 
 .more-like-title {
   color: white;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   margin-top: 64px;
   margin-bottom: 12px;
+}
+
+@media (max-width: $MediaQueryBreakPoint1) {
+}
+@media (max-width: $MediaQueryBreakPoint2) {
+}
+@media (max-width: $MediaQueryBreakPoint3) {
+}
+@media (max-width: $MediaQueryBreakPoint4) {
+}
+@media (max-width: $MediaQueryBreakPoint5) {
 }
