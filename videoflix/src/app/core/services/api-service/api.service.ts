@@ -24,8 +24,6 @@ export class ApiService {
     } else if (err.error && typeof err.error === 'object') {
       msg = JSON.stringify(err.error);
     }
-
-    console.log('Error message:', msg);
     return throwError(() => new Error(msg));
   }
 

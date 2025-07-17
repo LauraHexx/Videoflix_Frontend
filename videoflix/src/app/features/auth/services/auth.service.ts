@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { Observable, map } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 import { ApiService } from '../../../core/services/api-service/api.service';
+import { UserEndpoints } from '../../../core/endpoints/endpoints';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +46,17 @@ export class AuthService {
       return localStorage.getItem('auth-user-id');
     }
     return null;
+  }
+
+  /**
+   * Sends login request with FormData and returns full HTTP response as Observable.
+   * @param formData - Must include 'email' and 'password'
+   * @returns Observable of HttpResponse with full login response
+   */
+  login(formData: FormData): Observable<HttpResponse<any>> {
+    return this.apiService
+      .post<any>(UserEndpoints.login, formData, false)
+      .pipe(map((response) => response));
   }
 
   //todo: must be changed...

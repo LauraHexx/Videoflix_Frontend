@@ -7,6 +7,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { ApiService } from '../../../core/services/api-service/api.service';
 import { AuthService } from '../services/auth.service';
 
@@ -61,19 +63,21 @@ export class LoginComponent {
    * Handles form submission for login.
    * Validates form and delegates login process.
    */
-  async onSubmit(): Promise<void> {
+  onSubmit(): void {
     if (!this.loginForm.valid) return;
-
     const formData = this.buildFormData();
-    const result = await this.sendLoginRequest(formData);
-
-    console.log('Login result:', result);
-
-    if (result && result.status >= 200 && result.status < 300) {
-      this.handleSuccess(result.body);
-    } else {
-      this.handleError(result);
-    }
+    this.sendLoginRequest(formData).subscribe({
+      next: (response) => {
+        if (response.status >= 200 && response.status < 300) {
+          this.handleSuccess(response.body);
+        } else {
+          this.handleError(response);
+        }
+      },
+      error: (error) => {
+        this.handleError(error);
+      },
+    });
   }
 
   /**
@@ -89,8 +93,8 @@ export class LoginComponent {
   /**
    * Sends login POST request to the API.
    */
-  private async sendLoginRequest(formData: FormData) {
-    return await this.authService.postData('login/', formData);
+  private sendLoginRequest(formData: FormData): Observable<HttpResponse<any>> {
+    return this.authService.login(formData);
   }
 
   /**
