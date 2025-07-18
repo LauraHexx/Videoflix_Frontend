@@ -126,7 +126,6 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.videoService
       .postVideoWatchHistory(this.video!.id.toString(), currentTime)
       .subscribe({
-        next: () => console.log(`Watch progress pushed: ${currentTime}s`),
         error: (err) => console.error('Failed to update watch progress', err),
       });
   }

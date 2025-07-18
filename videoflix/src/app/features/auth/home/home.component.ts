@@ -92,11 +92,9 @@ export class HomeComponent {
    */
   private handleVerificationResult(result: any, email: string): void {
     if (result.status == 200) {
-      console.log('status', result.status);
       localStorage.setItem('signUpEmail', email);
       this.router.navigate(['/sign-up'], { queryParams: { fromHome: '1' } });
     } else {
-      console.log('status else', result.status);
       this.showErrorTemporarily();
     }
   }

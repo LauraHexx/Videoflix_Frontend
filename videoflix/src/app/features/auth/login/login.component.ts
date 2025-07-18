@@ -101,8 +101,6 @@ export class LoginComponent {
    * Handles successful login response.
    */
   private handleSuccess(data: any): void {
-    console.log('handleSuccess called with data:', data);
-
     if (data && data.token) {
       this.authService.setAuthCredentials(data.token, data.user_id, data.email);
       this.router.navigate(['/media-home']);

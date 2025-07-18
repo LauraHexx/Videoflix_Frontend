@@ -161,10 +161,8 @@ export class SignUpComponent implements OnInit {
         this.authService.register(formData)
       );
       if (response.status === 200 || response.status === 201) {
-        console.log(response.status);
         this.finalizeSuccessfulSubmission();
       } else {
-        console.log(response.status);
         this.showErrorTemporarily();
       }
     } catch (error: any) {
@@ -193,7 +191,6 @@ export class SignUpComponent implements OnInit {
    * @returns True if response is ok and user is not already verified
    */
   private isSuccessful(response: any): boolean {
-    console.log(response.userIsAlreadyVerified);
     return response.ok;
   }
 

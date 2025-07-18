@@ -13,8 +13,6 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   private handleError(err: any): Observable<never> {
-    console.log('API Error Details:', err);
-
     let msg = 'Network error';
 
     if (typeof window !== 'undefined' && err.error instanceof ErrorEvent) {

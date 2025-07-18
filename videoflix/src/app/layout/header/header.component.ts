@@ -177,7 +177,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public goToMediaHome() {
-    console.log('go home');
     this.router.navigate(['/media-home']);
   }
 
