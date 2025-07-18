@@ -61,3 +61,5 @@ testem.log
 Thumbs.db
 
 dev_media/
+up.bat 
+.vscode
