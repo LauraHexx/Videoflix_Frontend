@@ -1,34 +1,50 @@
-Videoflix Frontend
-Videoflix is a video streaming platform where users can register, log in, reset their passwords, and browse video content organized by categories. Users can continue watching videos from where they last left off and manage their profiles.
+# Videoflix Frontend 🎬
 
-This is the frontend application built with Angular, communicating with a Django backend via RESTful API.
+Videoflix is a video streaming platform built with Angular. It allows users to register, reset their password, browse categorized video content, and resume watching where they left off. The application is designed for a seamless viewing experience and interaction with a Django backend via a RESTful API.
 
-🚀 Features
-User registration and login (JWT-based authentication)
+## 🚀 Features
 
-Password reset flow
+- User registration & login
+- Password reset via email
+- Browse videos by category
+- Resume playback from last watched position
+- "Continue Watching" section for user convenience
+- Responsive UI for all screen sizes
 
-Video player with resume functionality
+## 🛠️ Technologies Used
 
-Category-based video browsing
+- Angular 19.2.13
+- RxJS
+- Angular Router
+- Video.js (with plugins)
+- SCSS
+- REST API integration (Django backend)
 
-"Continue Watching"
+## 📦 Installation
 
-Mobile responsive layout
+1. Clone the repository:
 
-API error handling and loading states
+   ```bash
+   git clone https://github.com/LauraHexx/Videoflix_Frontend.git
+   cd Videoflix_Frontend
 
-🛠️ Technologies Used
-Angular 19.2.13
+   ```
 
-RxJS for reactive programming
+2. Install dependencies:
 
-Angular Router for client-side routing
+   ```bash
+   npm install
 
-SCSS for styling
+   ```
 
-Video.js for video playback
+3. Start development server:
 
-Token Authentication
+   ```bash
+   npm start
+   ```
 
-REST API integration
+   The application will be available at http://localhost:4200
+
+4. Backend:
+   Make your backend server is running:
+   https://github.com/LauraHexx/Videoflix_Backend
