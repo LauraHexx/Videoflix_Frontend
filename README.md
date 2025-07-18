@@ -46,5 +46,5 @@ Videoflix is a video streaming platform built with Angular. It allows users to r
    The application will be available at http://localhost:4200
 
 4. Backend:
-   Make your backend server is running:
+   Make sure backend server is running:
    https://github.com/LauraHexx/Videoflix_Backend
