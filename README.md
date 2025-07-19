@@ -13,14 +13,14 @@ Videoflix is a video streaming platform built with Angular. It allows users to r
 
 ## 🛠️ Technologies Used
 
-- Angular 19.2.13
-- RxJS
-- Angular Router
-- Video.js (with plugins)
-- SCSS
-- REST API integration (Django backend)
+- **Angular 19.2.13** – Frontend framework for building single-page applications
+- **RxJS** – Library for reactive programming with observables
+- **Angular Router** – Module for client-side routing and navigation
+- **Video.js (with plugins)** – HTML5 video player for custom playback features
+- **SCSS** – CSS preprocessor for enhanced styling capabilities
+- **REST API integration (Django backend)** – Communication layer between frontend and backend
 
-## 📦 Installation
+## ⚙️ Installation
 
 1. Clone the repository:
 
