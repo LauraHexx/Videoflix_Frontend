@@ -70,9 +70,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     media.currentTime = this.video?.watch_progress ?? 0;
 
-    media.play().catch((err: unknown) => {
-      console.warn('Play konnte nicht gestartet werden:', err);
-    });
+    // media.play().catch((err: unknown) => {
+    //   console.warn('Play konnte nicht gestartet werden:', err);
+    // });
 
     this.startWatchProgressInterval();
   }
@@ -136,6 +136,11 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+  }
+
+  playVideo(): void {
+    const media = this.api.getDefaultMedia();
+    media.play();
   }
 
   ngAfterViewInit(): void {}

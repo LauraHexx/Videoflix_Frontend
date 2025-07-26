@@ -7,8 +7,6 @@
     <vg-buffering></vg-buffering>
 
     <video
-      allow="autoplay"
-      muted
       [vgMedia]="$any(media)"
       #media
       id="singleVideo"
@@ -25,6 +23,7 @@
 
       <button type="button" (click)="skip(-10)">-10s</button>
       <button type="button" (click)="skip(10)">+10s</button>
+      <button type="button" (click)="api.getDefaultMedia().play()">
 
       <vg-scrub-bar>
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
