@@ -16,6 +16,7 @@ import { VgControlsModule } from '@videogular/ngx-videogular/controls';
 import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
 import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
 import { VgStreamingModule } from '@videogular/ngx-videogular/streaming';
+import Hls from 'hls.js';
 
 @Component({
   selector: 'app-video-player',
@@ -31,16 +32,19 @@ import { VgStreamingModule } from '@videogular/ngx-videogular/streaming';
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.scss',
 })
-export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class VideoPlayerComponent implements OnInit, OnDestroy {
   video: Video | null = null;
   qualities: { level: number; label: string }[] = [];
   api!: VgApiService;
   private intervalId: any;
+  hlsBitrates: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private videoService: VideoService
-  ) {}
+  ) {
+    (window as any).Hls = Hls;
+  }
 
   /**
    * Initializes video by route ID.
@@ -57,9 +61,12 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   onPlayerReady(api: VgApiService): void {
     this.api = api;
     const media = this.api.getDefaultMedia();
+    if (!media) {
+      console.error('⚠️ No Media-Element found!');
+      return;
+    }
     const mediaElem = (media as any).mediaElement;
-
-    if (mediaElem?.hls && mediaElem.hls.levels) {
+    if (mediaElem?.hls?.levels) {
       this.qualities = mediaElem.hls.levels.map(
         (level: any, index: number) => ({
           level: index,
@@ -67,13 +74,7 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       );
     }
-
     media.currentTime = this.video?.watch_progress ?? 0;
-
-    media.play().catch((err: unknown) => {
-      console.warn('Play konnte nicht gestartet werden:', err);
-    });
-
     this.startWatchProgressInterval();
   }
 
@@ -124,11 +125,6 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onBuffering(event: Event): void {
-    // Beispiel: true/false je nach Eventtyp ableiten oder Event auswerten
-    console.log('Buffering event:', event);
-  }
-
   /**
    * Cleanup on destroy.
    */
@@ -137,6 +133,4 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       clearInterval(this.intervalId);
     }
   }
-
-  ngAfterViewInit(): void {}
 }
