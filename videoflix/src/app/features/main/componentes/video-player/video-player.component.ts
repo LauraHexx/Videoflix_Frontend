@@ -75,14 +75,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
       );
     }
     media.currentTime = this.video?.watch_progress ?? 0;
-<<<<<<< HEAD
-=======
-
-    // media.play().catch((err: unknown) => {
-    //   console.warn('Play konnte nicht gestartet werden:', err);
-    // });
-
->>>>>>> b1275fd21fbdc1d28c071153be7bb29c5bc89dd5
     this.startWatchProgressInterval();
   }
 
