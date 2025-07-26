@@ -1,15 +1,47 @@
-<section>
-  <div *ngIf="video">
-    <div data-vjs-playe>
-      <video
-        #target
-        id="my-video"
-        class="video-js vjs-big-play-centered"
-        controls
-        preload="auto"
-        [poster]="video.thumbnail_url"
-        data-setup="{}"
-      ></video>
-    </div>
-  </div>
+<section *ngIf="video">
+  <vg-player
+    (onPlayerReady)="onPlayerReady($event)"
+    (buffering)="onBuffering($event)"
+  >
+    <vg-overlay-play></vg-overlay-play>
+    <vg-buffering></vg-buffering>
+
+    <video
+      allow="autoplay"
+      muted
+      [vgMedia]="$any(media)"
+      #media
+      id="singleVideo"
+      preload="auto"
+      [poster]="video.thumbnail_url"
+      crossorigin="anonymous"
+    >
+      <source [src]="video.hls_playlist_url" type="application/x-mpegURL" />
+    </video>
+
+    <vg-controls [vgAutohide]="true" [vgAutohideTime]="3">
+      <vg-play-pause></vg-play-pause>
+      <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+      <button type="button" (click)="skip(-10)">-10s</button>
+      <button type="button" (click)="skip(10)">+10s</button>
+
+      <vg-scrub-bar>
+        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+      </vg-scrub-bar>
+
+      <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+
+      <vg-volume></vg-volume>
+
+      <!-- Quality Selector -->
+      <select (change)="changeQuality($event)">
+        <option *ngFor="let q of qualities" [value]="q.level">
+          {{ q.label }}
+        </option>
+      </select>
+
+      <vg-fullscreen></vg-fullscreen>
+    </vg-controls>
+  </vg-player>
 </section>

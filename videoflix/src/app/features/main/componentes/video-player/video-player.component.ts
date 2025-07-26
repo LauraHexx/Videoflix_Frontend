@@ -3,26 +3,38 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
-  ElementRef,
   AfterViewInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import videojs from 'video.js';
+import { VgApiService } from '@videogular/ngx-videogular/core';
 import { VideoService } from '../../services/video.service';
 import { Video } from '@shared/models/video';
 
+import { VgCoreModule } from '@videogular/ngx-videogular/core';
+import { VgControlsModule } from '@videogular/ngx-videogular/controls';
+import { VgOverlayPlayModule } from '@videogular/ngx-videogular/overlay-play';
+import { VgBufferingModule } from '@videogular/ngx-videogular/buffering';
+import { VgStreamingModule } from '@videogular/ngx-videogular/streaming';
+
 @Component({
   selector: 'app-video-player',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+    VgStreamingModule,
+  ],
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.scss',
-  standalone: true,
 })
 export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('target', { static: false }) target!: ElementRef;
   video: Video | null = null;
-  player: any;
+  qualities: { level: number; label: string }[] = [];
+  api!: VgApiService;
   private intervalId: any;
 
   constructor(
@@ -31,122 +43,100 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   /**
-   * Lifecycle hook that triggers on component initialization.
-   * Loads the video data using the route parameter.
+   * Initializes video by route ID.
    */
   ngOnInit(): void {
-    this.loadVideoById();
-  }
-
-  /**
-   * Loads video data by route ID and initializes the player.
-   */
-  private loadVideoById(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
-
     this.videoService.getVideoById(id).subscribe({
-      next: (video) => {
-        this.video = video;
-        this.initializePlayer();
-      },
+      next: (video) => (this.video = video),
       error: (err) => console.error('Error loading video:', err),
     });
   }
 
-  /**
-   * Lifecycle hook called after the component's view has been fully initialized.
-   * Initializes the video player if the video data is loaded.
-   */
-  ngAfterViewInit() {
-    if (this.video) {
-      this.initializePlayer();
+  onPlayerReady(api: VgApiService): void {
+    this.api = api;
+    const media = this.api.getDefaultMedia();
+    const mediaElem = (media as any).mediaElement;
+
+    if (mediaElem?.hls && mediaElem.hls.levels) {
+      this.qualities = mediaElem.hls.levels.map(
+        (level: any, index: number) => ({
+          level: index,
+          label: `${level.height}p`,
+        })
+      );
     }
-  }
 
-  /**
-   * Initializes the video player after the template is rendered.
-   */
-  private initializePlayer(): void {
-    setTimeout(() => {
-      this.setupPlayer();
-      this.onPlayerReady();
-    }, 100);
-  }
+    media.currentTime = this.video?.watch_progress ?? 0;
 
-  /**
-   * Creates the video.js player instance if not already created.
-   */
-  private setupPlayer(): void {
-    if (this.target && this.video && !this.player) {
-      this.player = videojs(this.target.nativeElement, {
-        controls: true,
-        autoplay: false,
-        preload: 'auto',
-        fluid: true,
-        sources: [
-          {
-            src: this.video.hls_playlist_url,
-            type: 'application/x-mpegURL',
-          },
-        ],
-      });
-    }
-  }
-
-  /**
-   * Sets player start time and starts the watch progress interval.
-   */
-  private onPlayerReady(): void {
-    if (!this.player) return;
-
-    this.player.ready(() => {
-      const startSecond = this.video?.watch_progress ?? 0;
-      this.player.currentTime(startSecond);
-      this.startWatchProgressInterval();
+    media.play().catch((err: unknown) => {
+      console.warn('Play konnte nicht gestartet werden:', err);
     });
+
+    this.startWatchProgressInterval();
   }
 
   /**
-   * Starts interval to push watch progress every 2 seconds when video plays.
+   * Starts watch progress tracking every 2 seconds.
    */
   private startWatchProgressInterval(): void {
     this.intervalId = setInterval(() => {
-      if (this.player && !this.player.paused() && this.video?.id) {
+      if (
+        this.api &&
+        this.api.getDefaultMedia().state === 'playing' &&
+        this.video?.id
+      ) {
         this.pushWatchProgress();
       }
     }, 2000);
   }
 
   /**
-   * Sends current watch progress to the backend.
+   * Sends watch progress to backend.
    */
   private pushWatchProgress(): void {
-    const currentTime = Math.floor(this.player.currentTime());
+    const current = Math.floor(this.api.getDefaultMedia().currentTime);
     this.videoService
-      .postVideoWatchHistory(this.video!.id.toString(), currentTime)
+      .postVideoWatchHistory(this.video!.id.toString(), current)
       .subscribe({
-        error: (err) => console.error('Failed to update watch progress', err),
+        error: (err) => console.error('Failed to update progress', err),
       });
   }
 
-  /**
-   * Lifecycle hook called when the component is destroyed.
-   * Disposes the video player and clears the watch progress interval.
-   */
-  ngOnDestroy() {
-    this.cleanupResources();
+  skip(seconds: number): void {
+    if (this.api) {
+      const currentTime = this.api.getDefaultMedia().currentTime;
+      this.api.getDefaultMedia().currentTime = Math.max(
+        0,
+        currentTime + seconds
+      );
+    }
+  }
+
+  changeQuality(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const level = parseInt(select.value, 10);
+    const mediaElem = (this.api.getDefaultMedia() as any).mediaElement;
+
+    if (mediaElem?.hls) {
+      mediaElem.hls.currentLevel = level; // -1 für Auto
+    }
+  }
+
+  onBuffering(event: Event): void {
+    // Beispiel: true/false je nach Eventtyp ableiten oder Event auswerten
+    console.log('Buffering event:', event);
   }
 
   /**
-   * Cleans up player and intervals to prevent memory leaks.
+   * Cleanup on destroy.
    */
-  private cleanupResources(): void {
-    if (this.player) {
-      this.player.dispose();
-    }
+  ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
   }
+
+  ngAfterViewInit(): void {}
 }
