@@ -59,6 +59,9 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Handles player ready event and initializes qualities and progress.
+   */
   onPlayerReady(api: VgApiService): void {
     this.api = api;
     const media = this.api.getDefaultMedia();
@@ -106,16 +109,9 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
       });
   }
 
-  skip(seconds: number): void {
-    if (this.api) {
-      const currentTime = this.api.getDefaultMedia().currentTime;
-      this.api.getDefaultMedia().currentTime = Math.max(
-        0,
-        currentTime + seconds
-      );
-    }
-  }
-
+  /**
+   * Changes video quality based on user selection.
+   */
   changeQuality(event: Event): void {
     const select = event.target as HTMLSelectElement;
     const level = parseInt(select.value, 10);
@@ -123,6 +119,19 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
 
     if (mediaElem?.hls) {
       mediaElem.hls.currentLevel = level; // -1 für Auto
+    }
+  }
+
+  /**
+   * Skips video playback by specified seconds.
+   */
+  skip(seconds: number): void {
+    if (this.api) {
+      const currentTime = this.api.getDefaultMedia().currentTime;
+      this.api.getDefaultMedia().currentTime = Math.max(
+        0,
+        currentTime + seconds
+      );
     }
   }
 
