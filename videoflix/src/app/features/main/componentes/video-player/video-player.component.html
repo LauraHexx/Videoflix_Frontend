@@ -26,10 +26,6 @@
       <vg-mute></vg-mute>
       <vg-volume></vg-volume>
 
-      <!-- Optional placeholder for future native quality integration -->
-      <!-- <vg-quality-selector></vg-quality-selector> -->
-
-      <!-- Manual quality selection -->
       <select class="quality-selctor" (change)="changeQuality($event)">
         <option *ngFor="let q of qualities" [value]="q.level">
           {{ q.label }}

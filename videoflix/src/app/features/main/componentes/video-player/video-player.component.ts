@@ -73,7 +73,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
       if (!videoElement || !this.video?.hls_playlist_url) return;
 
       if (Hls.isSupported()) {
-        this.hls = new Hls(); // ✅ das fehlt bei dir
+        this.hls = new Hls();
         this.hls.loadSource(this.video.hls_playlist_url);
         this.hls.attachMedia(videoElement);
 
@@ -88,7 +88,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
           this.startWatchProgressInterval();
         });
       } else {
-        console.warn('❌ HLS not supported in this browser');
+        console.warn('HLS not supported in this browser');
       }
     });
   }
