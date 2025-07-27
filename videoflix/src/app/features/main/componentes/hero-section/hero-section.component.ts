@@ -21,15 +21,17 @@ import { Subscription, combineLatest, startWith, filter, map } from 'rxjs';
 })
 export class HeroSectionComponent implements OnChanges {
   private router = inject(Router);
-
   private subscription = new Subscription();
   isTargetPageAndSmallScreen = false;
-
   @ViewChild('Video') videoRef!: ElementRef<HTMLVideoElement>;
   videoService = inject(VideoService);
   @Input() videoId: string | null = null;
   video: Video | null = null;
 
+  /**
+   * Reacts to input changes and reloads the video if the videoId has changed.
+   * @param changes - The changed input properties.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (
       changes['videoId'] &&
@@ -39,6 +41,9 @@ export class HeroSectionComponent implements OnChanges {
     }
   }
 
+  /**
+   * Attempts to autoplay the video by muting it first. Logs an error if autoplay is blocked.
+   */
   public tryPlayVideo() {
     if (this.videoRef?.nativeElement) {
       const video = this.videoRef.nativeElement;
@@ -49,10 +54,18 @@ export class HeroSectionComponent implements OnChanges {
     }
   }
 
+  /**
+   * Opens the video player for a specific video ID via the video service.
+   * @param videoId - ID of the video to open.
+   */
   public openVideoPlayer(videoId: number) {
     this.videoService.openVideoPlayer(videoId.toString());
   }
 
+  /**
+   * Loads video data from the backend using the provided ID.
+   * @param id - The ID of the video to load.
+   */
   private loadVideo(id: string | null): void {
     if (!id) return;
     this.videoService.getVideoById(id).subscribe({
@@ -81,6 +94,10 @@ export class HeroSectionComponent implements OnChanges {
     }
   }
 
+  /**
+   * Checks whether the current route is the media-home page.
+   * @returns True if on media-home route, otherwise false.
+   */
   public checkIfMediaHome(): boolean {
     return this.router.url.includes('media-home');
   }

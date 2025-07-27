@@ -12,6 +12,11 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Handles HTTP errors and returns a user-friendly message.
+   * @param err - The error object received from the HTTP call.
+   * @returns An observable that emits an error.
+   */
   private handleError(err: any): Observable<never> {
     let msg = 'Network error';
 
@@ -25,6 +30,12 @@ export class ApiService {
     return throwError(() => new Error(msg));
   }
 
+  /**
+   * Sends a GET request to the specified API endpoint with optional parameters.
+   * @param endpoint - The API endpoint path.
+   * @param params - Optional query parameters.
+   * @returns An observable of the HTTP response.
+   */
   get<T>(
     endpoint: string,
     params?: Record<string, unknown>
@@ -45,6 +56,13 @@ export class ApiService {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
+  /**
+   * Sends a POST request with a given payload to the specified API endpoint.
+   * @param endpoint - The API endpoint path.
+   * @param body - The request payload.
+   * @param asJson - Flag to determine JSON or form submission.
+   * @returns An observable of the HTTP response.
+   */
   post<T>(
     endpoint: string,
     body: any,
@@ -62,6 +80,13 @@ export class ApiService {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
+  /**
+   * Sends a PATCH request with a given payload to the specified API endpoint.
+   * @param endpoint - The API endpoint path.
+   * @param body - The partial update payload.
+   * @param asJson - Flag to determine JSON or form submission.
+   * @returns An observable of the HTTP response.
+   */
   patch<T>(
     endpoint: string,
     body: any,
@@ -79,12 +104,22 @@ export class ApiService {
       .pipe(catchError((e) => this.handleError(e)));
   }
 
+  /**
+   * Sends a DELETE request to the specified API endpoint.
+   * @param endpoint - The API endpoint path.
+   * @returns An observable of the HTTP response.
+   */
   delete<T>(endpoint: string): Observable<HttpResponse<T>> {
     return this.http
       .delete<T>(`${this.apiUrl}${endpoint}`, { observe: 'response' as const })
       .pipe(catchError((e) => this.handleError(e)));
   }
 
+  /**
+   * Converts a nested object into FormData, handling nested keys and files.
+   * @param obj - The object to convert.
+   * @returns A FormData instance representing the object.
+   */
   jsonToFormData(obj: any): FormData {
     const form = new FormData();
     const build = (val: any, key?: string) => {

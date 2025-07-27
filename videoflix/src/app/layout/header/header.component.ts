@@ -47,6 +47,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.updateUIState(this.router.url.toLowerCase());
   }
 
+  /**
+   * Checks if the user is currently logged in based on the presence of an auth token.
+   * @returns True if the auth token exists in localStorage, otherwise false.
+   */
   public checkIfLoggedIn() {
     if (typeof window !== 'undefined' && window.localStorage) {
       if (localStorage.getItem('auth-token') != undefined) {
@@ -87,6 +91,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Determines whether a UI button should be shown based on the current route.
+   * @param url - The current URL.
+   * @returns True if the button should be shown, otherwise false.
+   */
   private shouldShowButton(url: string): boolean {
     return !(
       url.includes('login') ||
@@ -95,6 +104,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Checks if the back arrow should be shown for the current route.
+   * @param url - The current URL.
+   * @returns True if the back arrow should be shown, otherwise false.
+   */
   private shouldShowArrowBack(url: string): boolean {
     return url.includes('privacy-policy') || url.includes('imprint');
   }
@@ -140,6 +154,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.checkIfLoggedIn() ? 'Log Out' : 'Log in';
   }
 
+  /**
+   * Returns the path to the logo image depending on the login status.
+   * @returns Logo path as a string.
+   */
   getLogoImage(): string {
     return this.checkIfLoggedIn() ? '/imgs/logo-no-text.svg' : '/imgs/logo.png';
   }
@@ -176,6 +194,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Navigates to the media home page.
+   */
   public goToMediaHome() {
     this.router.navigate(['/media-home']);
   }

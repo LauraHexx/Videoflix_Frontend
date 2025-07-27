@@ -20,6 +20,9 @@ export class VideoDetailComponent {
   private destroy$ = new Subject<void>();
   constructor(private route: ActivatedRoute) {}
 
+  /**
+   * Subscribes to route parameter changes and fetches the video genre if a videoId is present.
+   */
   ngOnInit(): void {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       this.videoId = params.get('id');
@@ -29,15 +32,24 @@ export class VideoDetailComponent {
     });
   }
 
+  /**
+   * Cleans up subscriptions when the component is destroyed.
+   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+  /**
+   * Extracts the video ID from the current route snapshot.
+   */
   private getVideoIdFormUrl() {
     this.videoId = this.route.snapshot.paramMap.get('id');
   }
 
+  /**
+   * Fetches the genre of the current video using its ID.
+   */
   private getVideoGenre() {
     if (this.videoId) {
       this.videoService.getVideoById(this.videoId).subscribe({

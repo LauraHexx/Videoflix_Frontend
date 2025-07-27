@@ -17,6 +17,9 @@ export class MediaHomeComponent {
   video: Video | null = null;
   videoId: string = '';
 
+  /**
+   * Initializes the component by loading the hero video on startup.
+   */
   ngOnInit() {
     this.videoService.getHeroVideo().subscribe((video) => {
       this.video = video;
@@ -24,6 +27,10 @@ export class MediaHomeComponent {
     });
   }
 
+  /**
+   * Checks whether the current route is the media-home page.
+   * @returns True if on media-home route, otherwise false.
+   */
   public checkIfMediaHome(): boolean {
     return this.router.url.includes('media-home');
   }

@@ -89,6 +89,10 @@ export class VideoService {
     this.router.navigate(['/video', videoId]);
   }
 
+  /**
+   * Navigates to the video detail page for the given video ID.
+   * @param videoId - The ID of the video to open.
+   */
   openVideoDetail(videoId: string): void {
     this.router.navigate(['/video-detail', videoId]);
   }
