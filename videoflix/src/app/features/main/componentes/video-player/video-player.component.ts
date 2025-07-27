@@ -3,7 +3,6 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
-  AfterViewInit,
   ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -63,8 +62,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {}
-
   /**
    * Handles player ready event and initializes qualities and progress.
    */
@@ -89,14 +86,13 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
 
           videoElement.currentTime = this.video?.watch_progress ?? 0;
           this.startWatchProgressInterval();
-
-          console.log('📺 HLS Levels gefunden:', this.qualities);
         });
       } else {
         console.warn('❌ HLS not supported in this browser');
       }
     });
   }
+
   /**
    * Changes video quality based on user selection.
    */
@@ -104,7 +100,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     const level = parseInt((event.target as HTMLSelectElement).value, 10);
     if (this.hls) {
       this.hls.currentLevel = level;
-      console.log('🎛 Qualität gesetzt auf', level);
     }
   }
 
