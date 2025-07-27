@@ -12,45 +12,45 @@
       preload="auto"
     ></video>
 
-    <vg-controls>
-      <vg-play-pause></vg-play-pause>
-      <vg-playback-button></vg-playback-button>
+    <vg-controls class="vg-controls">
+      <div class="top-control-warapper">
+        <vg-scrub-bar>
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        </vg-scrub-bar>
+        <vg-time-display
+          vgProperty="current"
+          vgFormat="mm:ss"
+        ></vg-time-display>
+      </div>
+      <div class="bottom-control-wrapper">
+        <vg-play-pause></vg-play-pause>
+        <vg-playback-button></vg-playback-button>
 
-      <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-      <vg-scrub-bar>
-        <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-        <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-      </vg-scrub-bar>
-      <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+        <vg-mute></vg-mute>
+        <vg-volume></vg-volume>
 
-      <vg-mute></vg-mute>
-      <vg-volume></vg-volume>
+        <select class="quality-selctor" (change)="changeQuality($event)">
+          <option *ngFor="let q of qualities" [value]="q.level">
+            {{ q.label }}
+          </option>
+        </select>
 
-      <select class="quality-selctor" (change)="changeQuality($event)">
-        <option *ngFor="let q of qualities" [value]="q.level">
-          {{ q.label }}
-        </option>
-      </select>
+        <button class="fullscreen-btn" (click)="toggleFullscreen()">
+          <img
+            [src]="isFullscreen ? 'imgs/fullscreen.svg' : 'imgs/fullscreen.svg'"
+            alt="Fullscreen Toggle"
+          />
+        </button>
 
-      <vg-fullscreen></vg-fullscreen>
+        <button class="skip-button" (click)="skip(-5)">
+          <img src="imgs/replay_10.svg" alt="Rewind 5 seconds" />
+        </button>
 
-      <button class="skip-button" (click)="skip(-5)">
-        <img
-          src="imgs/player-arrow-back.png"
-          alt="Rewind 5 seconds"
-          width="24"
-          height="24"
-        />
-      </button>
-
-      <button class="skip-button" (click)="skip(5)">
-        <img
-          src="imgs/player-arrow-forward.png"
-          alt="Forward 5 seconds"
-          width="24"
-          height="24"
-        />
-      </button>
+        <button class="skip-button" (click)="skip(5)">
+          <img src="imgs/forward_10.svg" alt="Forward 5 seconds" />
+        </button>
+      </div>
     </vg-controls>
   </vg-player>
 </section>

@@ -42,6 +42,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   api!: VgApiService;
   private intervalId: any;
   hlsBitrates: any[] = [];
+  isFullscreen = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -150,5 +151,10 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+  }
+
+  public toggleFullscreen() {
+    this.api.fsAPI.toggleFullscreen(this.api.videogularElement);
+    this.isFullscreen = !this.isFullscreen;
   }
 }

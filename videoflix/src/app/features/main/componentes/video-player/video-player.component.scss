@@ -1,3 +1,5 @@
+@use "styles.scss" as *;
+
 section,
 video {
   width: 100vw;
@@ -20,10 +22,39 @@ video {
   background: #181818;
 }
 
+.vg-controls {
+  @include dFlex($fd: column);
+  width: 100%;
+  margin-bottom: 1px;
+  height: min-content;
+}
+
+.top-control-warapper {
+  @include dFlex($fd: row);
+  width: 100%;
+}
+
+.bottom-control-wrapper {
+  @include dFlex($fd: row);
+  min-width: 100%;
+}
+
 .skip-button {
   color: white;
   background: transparent;
   border: none;
   font-size: 24px;
   cursor: pointer;
+  img {
+    width: 24px;
+  }
+}
+
+.fullscreen-btn {
+  width: 18px;
+  height: auto;
+  background-color: transparent;
+  img {
+    width: 24px;
+  }
 }

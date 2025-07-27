@@ -93,6 +93,7 @@
               "includePaths": ["src"]
             },
             "assets": [
+              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
