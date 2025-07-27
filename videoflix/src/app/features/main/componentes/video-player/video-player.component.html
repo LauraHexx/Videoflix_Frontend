@@ -4,28 +4,37 @@
     <vg-buffering></vg-buffering>
 
     <video
-      [vgMedia]="$any(media)"
       #media
-      [poster]="video.thumbnail_url"
-      [vgHls]="video.hls_playlist_url"
-      (onGetBitrates)="hlsBitrates = $event"
       id="my-video"
-      type="video/mp4"
+      [vgMedia]="$any(media)"
+      [poster]="video.thumbnail_url"
+      crossorigin="anonymous"
+      preload="auto"
     ></video>
 
     <vg-controls>
       <vg-play-pause></vg-play-pause>
       <vg-playback-button></vg-playback-button>
+
       <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
       <vg-scrub-bar>
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
       </vg-scrub-bar>
       <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
       <vg-mute></vg-mute>
       <vg-volume></vg-volume>
 
-      <vg-quality-selector></vg-quality-selector>
+      <!-- Optionaler Platzhalter für zukünftige native Qualität-Integration -->
+      <!-- <vg-quality-selector></vg-quality-selector> -->
+
+      <!-- Manuelle Qualitätsauswahl -->
+      <select class="quality-selctor" (change)="changeQuality($event)">
+        <option *ngFor="let q of qualities" [value]="q.level">
+          {{ q.label }}
+        </option>
+      </select>
 
       <vg-fullscreen></vg-fullscreen>
 

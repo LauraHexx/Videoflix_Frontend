@@ -4,6 +4,7 @@ import {
   OnDestroy,
   ViewChild,
   AfterViewInit,
+  ElementRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -34,6 +35,9 @@ import Hls from 'hls.js';
   styleUrl: './video-player.component.scss',
 })
 export class VideoPlayerComponent implements OnInit, OnDestroy {
+  @ViewChild('media', { static: false })
+  videoElementRef!: ElementRef<HTMLVideoElement>;
+  hls!: Hls;
   video: Video | null = null;
   qualities: { level: number; label: string }[] = [];
   api!: VgApiService;
@@ -59,27 +63,62 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {}
+
   /**
    * Handles player ready event and initializes qualities and progress.
    */
   onPlayerReady(api: VgApiService): void {
     this.api = api;
-    const media = this.api.getDefaultMedia();
-    if (!media) {
-      console.error('⚠️ No Media-Element found!');
-      return;
+
+    setTimeout(() => {
+      const videoElement = this.videoElementRef?.nativeElement;
+      if (!videoElement || !this.video?.hls_playlist_url) return;
+
+      if (Hls.isSupported()) {
+        this.hls = new Hls(); // ✅ das fehlt bei dir
+        this.hls.loadSource(this.video.hls_playlist_url);
+        this.hls.attachMedia(videoElement);
+
+        this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          this.qualities = this.hls.levels.map((level: any, index: number) => ({
+            level: index,
+            label: `${level.height}p`,
+          }));
+          this.qualities.unshift({ level: -1, label: 'Auto' });
+
+          videoElement.currentTime = this.video?.watch_progress ?? 0;
+          this.startWatchProgressInterval();
+
+          console.log('📺 HLS Levels gefunden:', this.qualities);
+        });
+      } else {
+        console.warn('❌ HLS not supported in this browser');
+      }
+    });
+  }
+  /**
+   * Changes video quality based on user selection.
+   */
+  changeQuality(event: Event): void {
+    const level = parseInt((event.target as HTMLSelectElement).value, 10);
+    if (this.hls) {
+      this.hls.currentLevel = level;
+      console.log('🎛 Qualität gesetzt auf', level);
     }
-    const mediaElem = (media as any).mediaElement;
-    if (mediaElem?.hls?.levels) {
-      this.qualities = mediaElem.hls.levels.map(
-        (level: any, index: number) => ({
-          level: index,
-          label: `${level.height}p`,
-        })
+  }
+
+  /**
+   * Skips video playback by specified seconds.
+   */
+  skip(seconds: number): void {
+    if (this.api) {
+      const currentTime = this.api.getDefaultMedia().currentTime;
+      this.api.getDefaultMedia().currentTime = Math.max(
+        0,
+        currentTime + seconds
       );
     }
-    media.currentTime = this.video?.watch_progress ?? 0;
-    this.startWatchProgressInterval();
   }
 
   /**
@@ -107,32 +146,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
       .subscribe({
         error: (err) => console.error('Failed to update progress', err),
       });
-  }
-
-  /**
-   * Changes video quality based on user selection.
-   */
-  changeQuality(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const level = parseInt(select.value, 10);
-    const mediaElem = (this.api.getDefaultMedia() as any).mediaElement;
-
-    if (mediaElem?.hls) {
-      mediaElem.hls.currentLevel = level; // -1 für Auto
-    }
-  }
-
-  /**
-   * Skips video playback by specified seconds.
-   */
-  skip(seconds: number): void {
-    if (this.api) {
-      const currentTime = this.api.getDefaultMedia().currentTime;
-      this.api.getDefaultMedia().currentTime = Math.max(
-        0,
-        currentTime + seconds
-      );
-    }
   }
 
   /**
