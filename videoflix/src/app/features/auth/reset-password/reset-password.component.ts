@@ -9,14 +9,14 @@ import {
 } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ApiService } from '../../../core/services/api-service/api.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
 })
@@ -25,6 +25,7 @@ export class ResetPasswordComponent implements OnInit {
   showPassword = false;
   showRepeatedPassword = false;
   errorVisible = false;
+  successVisible = false;
   token: string | null = null;
 
   constructor(
@@ -144,7 +145,8 @@ export class ResetPasswordComponent implements OnInit {
       );
 
       if (this.isSuccessful(response)) {
-        this.router.navigate(['/login']);
+        this.successVisible = true;
+        this.errorVisible = false;
       } else {
         this.showErrorTemporarily();
       }
@@ -177,6 +179,7 @@ export class ResetPasswordComponent implements OnInit {
    */
   private showErrorTemporarily(): void {
     this.errorVisible = true;
+    this.successVisible = false;
     setTimeout(() => {
       this.errorVisible = false;
     }, 3000);
@@ -187,5 +190,12 @@ export class ResetPasswordComponent implements OnInit {
    */
   hideError(): void {
     this.errorVisible = false;
+  }
+
+  /**
+   * Hides the success container by setting errorVisible to false.
+   */
+  hideSuccess(): void {
+    this.successVisible = false;
   }
 }
