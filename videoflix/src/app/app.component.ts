@@ -1,14 +1,21 @@
-import { Component, Renderer2, OnInit, Inject } from '@angular/core';
+import { Component, Renderer2, OnInit, OnDestroy, Inject } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { HeaderComponent } from './layout/header/header.component';
+import { HeaderPlayerComponent } from './layout/header-player/header-player.component';
 import { FooterComponent } from './layout/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterModule, HeaderComponent, FooterComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    HeaderComponent,
+    HeaderPlayerComponent,
+    FooterComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
@@ -46,5 +53,10 @@ export class AppComponent implements OnInit {
     } else {
       this.renderer.removeClass(element, 'dark-background');
     }
+  }
+
+  /** Shows the header-player only on video detail routes like /video/19 */
+  isVideoRoute(): boolean {
+    return this.router.url.startsWith('/video/');
   }
 }

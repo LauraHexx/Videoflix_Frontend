@@ -35,8 +35,23 @@ video {
 }
 
 .bottom-control-wrapper {
-  @include dFlex($fd: row);
+  @include dFlex($jc: space-between, $ai: center, $fd: flex);
   min-width: 100%;
+}
+
+.left-controls,
+.right-controls,
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.left-controls {
+  gap: 10px;
+}
+
+.title {
+  font-size: 20px;
 }
 
 .skip-button {
@@ -45,6 +60,7 @@ video {
   border: none;
   font-size: 24px;
   cursor: pointer;
+  padding: 0px;
   img {
     width: 24px;
   }
@@ -56,5 +72,18 @@ video {
   background-color: transparent;
   img {
     width: 24px;
+    padding: 0;
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint3) {
+  .title {
+    display: none !important;
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint5) {
+  .left-controls {
+    gap: 5px;
   }
 }

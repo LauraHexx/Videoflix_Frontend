@@ -1,0 +1,51 @@
+@use "styles.scss" as *;
+
+.header-player {
+  padding: 10px 32px !important;
+
+  max-width: unset !important;
+
+  img {
+    transition: opacity 0.5s ease;
+    opacity: 1;
+    pointer-events: auto;
+    cursor: pointer;
+
+    &.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .logo {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 12px;
+    .video-title {
+      font-size: 18px;
+      display: none;
+    }
+  }
+
+  .close {
+    display: none;
+
+    img {
+      width: 49px !important;
+      height: auto !important;
+      object-fit: contain;
+    }
+  }
+}
+
+@media (max-width: $MediaQueryBreakPoint3) {
+  .close,
+  .video-title {
+    display: flex !important;
+  }
+
+  .arrow-back {
+    display: none !important;
+  }
+}

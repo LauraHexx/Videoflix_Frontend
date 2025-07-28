@@ -1,0 +1,23 @@
+<header
+  class="header-player"
+  (mouseenter)="onHeaderHover()"
+  (mouseleave)="startHideTimer()"
+>
+  <img
+    class="arrow-back"
+    src="imgs/arrow-back.png"
+    alt="arrow back"
+    (click)="goBack()"
+    [class.hidden]="!showImages"
+  />
+
+  <div class="logo" [class.hidden]="!showImages">
+    <img (click)="goToMediaHome()" src="imgs/logo-short.png" alt="logo" />
+
+    <span class="video-title">{{ videoTitle }}</span>
+  </div>
+
+  <div (click)="goBack()" class="close">
+    <img src="imgs/close.png" alt="logo" [class.hidden]="!showImages" />
+  </div>
+</header>

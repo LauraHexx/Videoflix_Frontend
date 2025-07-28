@@ -24,32 +24,40 @@
         ></vg-time-display>
       </div>
       <div class="bottom-control-wrapper">
-        <vg-play-pause></vg-play-pause>
-        <vg-playback-button></vg-playback-button>
+        <div class="left-controls">
+          <vg-play-pause></vg-play-pause>
 
-        <vg-mute></vg-mute>
-        <vg-volume></vg-volume>
+          <button class="skip-button" (click)="skip(5)">
+            <img src="imgs/forward_10.svg" alt="Forward 5 seconds" />
+          </button>
 
-        <select class="quality-selctor" (change)="changeQuality($event)">
-          <option *ngFor="let q of qualities" [value]="q.level">
-            {{ q.label }}
-          </option>
-        </select>
+          <button class="skip-button" (click)="skip(-5)">
+            <img src="imgs/replay_10.svg" alt="Rewind 5 seconds" />
+          </button>
 
-        <button class="fullscreen-btn" (click)="toggleFullscreen()">
-          <img
-            [src]="isFullscreen ? 'imgs/fullscreen.svg' : 'imgs/fullscreen.svg'"
-            alt="Fullscreen Toggle"
-          />
-        </button>
+          <vg-volume></vg-volume>
+        </div>
 
-        <button class="skip-button" (click)="skip(-5)">
-          <img src="imgs/replay_10.svg" alt="Rewind 5 seconds" />
-        </button>
+        <span class="title">{{ video.title }}</span>
 
-        <button class="skip-button" (click)="skip(5)">
-          <img src="imgs/forward_10.svg" alt="Forward 5 seconds" />
-        </button>
+        <div class="right-controls">
+          <vg-playback-button></vg-playback-button>
+
+          <select class="quality-selctor" (change)="changeQuality($event)">
+            <option *ngFor="let q of qualities" [value]="q.level">
+              {{ q.label }}
+            </option>
+          </select>
+
+          <button class="fullscreen-btn" (click)="toggleFullscreen()">
+            <img
+              [src]="
+                isFullscreen ? 'imgs/fullscreen.svg' : 'imgs/fullscreen.svg'
+              "
+              alt="Fullscreen Toggle"
+            />
+          </button>
+        </div>
       </div>
     </vg-controls>
   </vg-player>

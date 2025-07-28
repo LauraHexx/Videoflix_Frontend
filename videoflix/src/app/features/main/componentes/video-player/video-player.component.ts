@@ -52,13 +52,17 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Initializes video by route ID.
+   * Lifecycle hook that runs after component initialization.
+   * Retrieves video ID from route, fetches the video, and sets it as current.
    */
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) return;
     this.videoService.getVideoById(id).subscribe({
-      next: (video) => (this.video = video),
+      next: (video) => {
+        this.video = video;
+        this.videoService.setCurrentVideo(video);
+      },
       error: (err) => console.error('Error loading video:', err),
     });
   }
@@ -153,6 +157,10 @@ export class VideoPlayerComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Toggles fullscreen mode for the video player.
+   * Updates internal fullscreen state after toggling.
+   */
   public toggleFullscreen() {
     this.api.fsAPI.toggleFullscreen(this.api.videogularElement);
     this.isFullscreen = !this.isFullscreen;

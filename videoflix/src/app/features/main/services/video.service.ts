@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { ApiService } from '../../../core/services/api-service/api.service';
 import { VideosEndpoints } from '../../../core/endpoints/endpoints';
@@ -10,7 +10,20 @@ import { UserWatchHistory } from '../../../shared/models/user-watch-history';
   providedIn: 'root',
 })
 export class VideoService {
+  private currentVideoSubject = new BehaviorSubject<Video | null>(null);
+  currentVideo$: Observable<Video | null> =
+    this.currentVideoSubject.asObservable();
+
   constructor(private apiService: ApiService, private router: Router) {}
+
+  /**
+   * Sets the current video and emits it to all subscribers.
+   *
+   * @param video - The video object to set as current.
+   */
+  setCurrentVideo(video: Video) {
+    this.currentVideoSubject.next(video);
+  }
 
   /**
    * Fetches the hero video.

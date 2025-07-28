@@ -1,5 +1,8 @@
 <div class="app-container">
   <app-header></app-header>
+  <app-header-player *ngIf="isVideoRoute()"></app-header-player>
+
   <router-outlet></router-outlet>
+
   <app-footer></app-footer>
 </div>
