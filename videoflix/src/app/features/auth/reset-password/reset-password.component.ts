@@ -40,7 +40,7 @@ export class ResetPasswordComponent implements OnInit {
 
   /**
    * OnInit lifecycle hook to extract token from route.
-   */
+   */ 
   ngOnInit(): void {
     this.token = this.route.snapshot.paramMap.get('token');
     if (!this.token) {

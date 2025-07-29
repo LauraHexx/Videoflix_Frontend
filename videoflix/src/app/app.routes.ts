@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/auth/home/home.component';
 import { SignUpComponent } from './features/auth/sign-up/sign-up.component';
+import { RegisterSuccessComponent } from './features/auth/register-success/register-success.component';
 import { EmailWasSentComponent } from './features/auth/email-was-sent/email-was-sent.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
@@ -22,6 +23,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   { path: 'sign-up', component: SignUpComponent, canActivate: [noAuthGuard] },
+  {
+    path: 'success-register',
+    component: RegisterSuccessComponent,
+    canActivate: [noAuthGuard],
+  },
   {
     path: 'email-was-sent',
     component: EmailWasSentComponent,

@@ -1,0 +1,30 @@
+.bg-register-success {
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url("/imgs/bg-popcorn.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.register-success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2,
+  span {
+    text-align: center;
+  }
+}
+
+.register-success-content {
+  position: relative;
+  flex-direction: column;
+}
+
+.login-link {
+  text-decoration: underline;
+  &:hover {
+    color: var(--primary-color);
+  }
+}
