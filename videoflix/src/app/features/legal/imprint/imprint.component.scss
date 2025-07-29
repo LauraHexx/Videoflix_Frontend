@@ -1,0 +1,47 @@
+@use "styles.scss" as *;
+
+section {
+  @include dFlex($jc: center, $ai: flex-start);
+  box-sizing: border-box;
+}
+
+.wrapper {
+  color: white;
+  max-width: 1980px;
+  margin-top: 100px;
+  padding: 0px 96px;
+  a {
+    color: var(--primary-color);
+  }
+}
+.tittle {
+  margin-bottom: 16px;
+  color: var(--primary-color);
+}
+
+@media (max-width: $MediaQueryBreakPoint1) {
+}
+@media (max-width: $MediaQueryBreakPoint2) {
+  .wrapper {
+    padding-left: $main-left-right-distance2;
+    padding-right: $main-left-right-distance2;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint3) {
+  .wrapper {
+    padding-left: $main-left-right-distance3;
+    padding-right: $main-left-right-distance3;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint4) {
+  .wrapper {
+    padding-left: $main-left-right-distance4;
+    padding-right: $main-left-right-distance4;
+  }
+}
+@media (max-width: $MediaQueryBreakPoint5) {
+  .wrapper {
+    padding-left: $main-left-right-distance5;
+    padding-right: $main-left-right-distance5;
+  }
+}
